@@ -1,0 +1,59 @@
+<div class="ml-8">
+  <h4 nz-typography class="mt-2" *ngIf="Gid!=-1">组号：{{Gid}}</h4>
+  <h4 nz-typography class="mt-2">组内教师列表</h4>
+  <nz-table #currentTeacherInTable [nzData]='currentDisplayTeacherList!'>
+    <thead>
+      <tr>
+        <th>教师账号</th>
+        <th>姓名</th>
+        <th>联系方式</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of currentTeacherInTable.data">
+        <td>{{ data.uid }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.phone }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <h4 nz-typography class="mt-2">组内学生列表</h4>
+  <nz-table #currentStudentInTable [nzPageSize]="10" [nzData]='currentDisplayStudentList!'>
+    <thead>
+      <tr>
+        <th>学生账号</th>
+        <th>姓名</th>
+        <th>材料审核状态</th>
+        <th>初试分数</th>
+        <th>初试申请状态</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of currentStudentInTable.data">
+        <td>{{ data.uid }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{status[data.status]}}</td>
+        <td>{{ data.score1==-1?"未打分":data.score1 }}</td>
+        <td>{{ data.pass1?"已通过":"审核中" }}</td>
+        <td>
+          <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生报名信息</a>
+
+      </tr>
+    </tbody>
+  </nz-table>
+
+
+
+  <!-- 查看学生的对话框 -->
+  <nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleStudent" nzTitle="查看/操作学生报名表"
+    (nzOnOk)="handleOkStudent()" (nzOnCancel)="handleOkStudent()" [nzOkLoading]="isOkLoadingStudent">
+    <ng-container *nzModalContent>
+      <app-student-operation [studentUid]='this.studentUid'></app-student-operation>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleOkStudent()">确定</button>
+    </div>
+  </nz-modal>
+</div>

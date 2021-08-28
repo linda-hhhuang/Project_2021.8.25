@@ -1,0 +1,117 @@
+<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
+  (click)="showModalPass()"><span>按照分数批量通过学生初试申请</span></button>
+
+<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
+  (click)="showModalDelete()"><span>撤销所有学生的初试申请</span></button>
+
+
+
+<!-- 展示当前用户表格 -->
+<h4 nz-typography class="mt-2">当前学生</h4>
+<nz-table #currentUserInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayUserList!'>
+  <thead>
+    <tr>
+      <th nzCustomFilter>账号
+        <nz-filter-trigger [(nzVisible)]="visibleSearchSid" [nzActive]="searchSidValue.length > 0"
+          [nzDropdownMenu]="searchSidMenu">
+          <i nz-icon nzType="filter" nzTheme="twotone"></i>
+        </nz-filter-trigger>
+      </th>
+      <th nzCustomFilter>姓名
+        <nz-filter-trigger [(nzVisible)]="visibleSearchName" [nzActive]="searchNameValue.length > 0"
+          [nzDropdownMenu]="searchNameMenu">
+          <i nz-icon nzType="filter" nzTheme="twotone"></i>
+        </nz-filter-trigger>
+      </th>
+      <th>所属组别</th>
+      <th>初试分数</th>
+      <th>初试通过状态</th>
+      <th>复试分数</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of currentUserInTable.data">
+      <td>{{ data.uid }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.groupGid }}</td>
+      <td>{{data.score1==-1?"未打分":data.score1}}</td>
+      <td>{{ data.pass1?"已通过":'审核中'}}</td>
+      <td>{{ data.score2==-1?"未打分":data.score2}}</td>
+      <td>
+        <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生报名信息</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除学生 {{data.name}} 吗?"
+          nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data)" (nzOnCancel)="Cancel()" nzOkText="确认删除"
+          nzCancelText="取消">删除学生</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要通过学生 {{data.name}} 的初试申请吗?"
+          nzPopconfirmPlacement="bottom" (nzOnConfirm)="passConfirm(data)" (nzOnCancel)="Cancel()" nzOkText="确认通过初试"
+          nzCancelText="取消">通过此学生初试申请</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!-- 姓名的搜索的下拉框 -->
+<nz-dropdown-menu #searchNameMenu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="p-2">
+      <input class="w-44 mb-2 block" nz-input placeholder="按名字搜索" [(ngModel)]="searchNameValue" />
+      <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchName()">
+        搜索
+      </button>
+      <button class="w-20" nz-button nzSize="small" (click)="resetName()">重置</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<!-- sid的搜索的下拉框 -->
+<nz-dropdown-menu #searchSidMenu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="p-2">
+      <input class="w-44 mb-2 block" nz-input placeholder="按账户搜索" [(ngModel)]="searchSidValue" />
+      <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchSid()">
+        搜索
+      </button>
+      <button class="w-20" nz-button nzSize="small" (click)="resetSid()">重置</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<!-- 查看学生的对话框 -->
+<nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleStudent" nzTitle="查看/操作学生报名表"
+  (nzOnOk)="handleOkStudent()" (nzOnCancel)="handleOkStudent()" [nzOkLoading]="isOkLoadingStudent">
+  <ng-container *nzModalContent>
+    <app-student-operation [studentUid]='this.studentUid'></app-student-operation>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleOkStudent()">确定</button>
+  </div>
+</nz-modal>
+
+<!-- passScore的对话框 -->
+<nz-modal [(nzVisible)]="isVisiblePass" nzTitle="按照分数批量通过学生初试申请" (nzOnCancel)="handleCancelPass()"
+  (nzOnOk)="handleOkPass()" [nzOkLoading]="isOkLoadingPass">
+  <ng-container *nzModalContent>
+    确定将满足以下条件的学生的初始申请状态设置为“通过”：
+    <br>
+    初试分数>= <input nz-input [(ngModel)]="passScore" /> 分
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancelPass()">取消</button>
+    <button nz-button nzType="primary" (click)="handleOkPass()" [nzLoading]="isOkLoadingPass">确认提交</button>
+  </div>
+</nz-modal>
+
+<!-- Delete的对话框 -->
+<nz-modal [(nzVisible)]="isVisibleDelete" nzTitle="撤销所有学生的初试申请" (nzOnCancel)="handleCancelDelete()"
+  (nzOnOk)="handleOkDelete()" [nzOkLoading]="isOkLoadingDelete">
+  <ng-container *nzModalContent>
+    确定要将所有学生的初试申请状态设置为“不通过”吗？请谨慎操作！
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancelDelete()">取消</button>
+    <button nz-button nzType="primary" (click)="handleOkDelete()" [nzLoading]="isOkLoadingDelete">确认此设置</button>
+  </div>
+</nz-modal>

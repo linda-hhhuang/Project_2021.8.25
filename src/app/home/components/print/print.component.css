@@ -1,0 +1,35 @@
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+td,
+th {
+  border: 1px solid black;
+  background-color: white;
+  padding: 2px 4px;
+}
+
+th {
+  background-color: white;
+  width: 80px;
+}
+
+td {
+  text-align: center;
+  width: 120px;
+}
+tr {
+  height: 50px;
+}
+caption {
+  padding: 4px;
+}
+
+.page {
+  page-break-after: always;
+}

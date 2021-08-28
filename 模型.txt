@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  // url      = env("DATABASE_URL")
+  url      = "file:./data.db"
+}
+
+model Student {
+  uid            Int          @id
+  name           String
+  Group          Group?       @relation(fields: [groupGid], references: [gid])
+  groupGid       Int?
+  SignupTemplate SignTemplate @relation(fields: [uid], references: [uid])
+  sign           String       @default("")
+  score1         Float        @default(-1) // 第一次评分，-1代表未设置分数
+  pass1          Boolean      @default(false) // 第一次通过
+  score2         Float        @default(-1) // 第二次评分
+  status         Int          @default(0)
+{export enum Status {
+  Wait,
+  Pass,
+  Validate,
+  Checked, //有意义
+}}
+  Resources      Resource[]
+}
+
+model Teacher {
+  uid      Int     @id
+  name     String
+  phone    String?
+  Group    Group?  @relation(fields: [groupGid], references: [gid])
+  groupGid Int?
+}
+
+model Group {
+  gid      Int       @id @default(autoincrement())
+  Teachers Teacher[]
+  Students Student[]
+}
+
+model SignTemplate {
+  uid     Int      @id
+  Student Student?
+
+  name           String   @default("") // 姓名
+  sex            String   @default("") // 性别
+  birth          String   @default("") // 出生年月
+  nation         String   @default("") // 民族
+  politic        String   @default("") // 政治面貌
+  id             String   @default("") // 身份证号码
+  sid            String   @default("") // 学号
+  university     String   @default("") // 本科院校
+  department     String   @default("") // 本科院系
+  major          String   @default("") // 本科专业
+  enrollmentTime String   @default("") // 入学时间
+  phone          String   @default("") // 电话
+  email          String   @default("") // 邮箱
+  address        String   @default("") // 家庭住址
+  emergencyPhone String   @default("") // 紧急电话
+  examFree       Boolean? // 是否获取免试生资格（null为未确定）
+  description    String   @default("") // 300字以内个人介绍
+  reward         String   @default("") // 奖励与荣誉
+  achievements   String   @default("") // 已取得的科研成果
+  score          String   @default("") // 本科成绩及排名
+  englishScore   String   @default("") // 外语成绩
+}
+
+model Resource {
+  fid        String   @id
+  filename   String
+  Student    Student  @relation(fields: [studentUid], references: [uid])
+  studentUid Int
+  date       DateTime @default(now())
+}
+
+generator client {
+  provider = "prisma-client-js"
+}

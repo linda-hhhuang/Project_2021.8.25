@@ -1,0 +1,26 @@
+<div class="ml-16 mt-10 ">
+  <div class="h-64 w-120 float-left border-antd border-solid border-2 p-6 rounded-lg">
+    <div class="mt-3 mb-4">
+      <span class="text-2xl">当前夏令营活动 : </span>
+      <span class="text-3xl font-bold" nz-typography
+        [nzType]='AntdStatus(currentStatus)'>{{status[currentStatus]}}</span>
+    </div>
+    <div class="mt-8">
+      <span class="text-xl">开始时间:</span>&nbsp;&nbsp;
+      <span class="text-2xl font-bold">{{currentTimeFrom}}</span>
+    </div>
+    <br>
+    <div>
+      <span class="text-xl">结束时间:</span>&nbsp;&nbsp;
+      <span class="text-2xl font-bold">{{currentTimeTo}}</span>
+    </div>
+  </div>
+
+  <div class="h-64 w-120 float-left ml-36 border-antd border-solid border-2 p-6 rounded-lg text-center">
+    <h3 nz-typography>教师端功能导航</h3>
+    <!-- <button nz-button class="mb-4 mt-2" [nzSize]='"large"' nzType="default" routerLink="../personal"
+      routerLinkActive="active">个人信息</button>
+    <br> -->
+    <button nz-button class="mb-4" [nzSize]='"large"' nzType="default" routerLink="../member"
+      routerLinkActive="active">查看/操作组员</button>
+  </div>

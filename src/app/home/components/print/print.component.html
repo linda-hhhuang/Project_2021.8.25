@@ -1,0 +1,81 @@
+<div [hidden]="buttonVisiable">
+  <button (click)="print()" nz-button nzType="primary" nz-tooltip nzTooltipTitle="按此按钮预览打印效果并在导出为PDF" class="mt-2 ml-2">
+    打印
+  </button>
+</div>
+<div *ngFor="let data of requestList$ |async">
+  <div class="page">
+    <h2 nz-typography>申请表</h2>
+    <table class="w-11/12">
+      <colgroup>
+        <col span="6" />
+      </colgroup>
+      <tbody>
+        <tr>
+          <th rowspan="4" scope="rowgroup" colspan="1">学生信息</th>
+          <th scope="row" colspan="1">姓名</th>
+          <td colspan="1">{{data.Student.name}}</td>
+          <th scope="row" colspan="1">学号</th>
+          <td colspan="1">{{data.Student.sid}}</td>
+        </tr>
+        <tr>
+          <th scope="row" colspan="1">专业</th>
+          <td colspan="1">{{data.Student.major}}</td>
+          <th scope="row" colspan="1">院系</th>
+          <td colspan="1">{{data.Student.department}}</td>
+        </tr>
+        <tr>
+          <th scope="row" colspan="1">学科门类</th>
+          <td colspan="1">{{data.Student.field}}</td>
+          <th scope="row" colspan="1">是否双学位</th>
+          <td colspan="1">{{data.Student.doubleDegree?'是':'否'}}</td>
+        </tr>
+        <tr>
+          <th scope="row" colspan="1">双学位所在专业</th>
+          <td colspan="1">
+            <div *ngIf="data.Student.doubleDegree">
+              {{data.Student.doubleDegreeMajor}}
+            </div>
+          </td>
+          <th scope="row" colspan="1">双学位所在院系</th>
+          <td *ngIf="data.Student.doubleDegree">
+            <div colspan="1">
+              {{data.Student.doubleDegreeDepartment}}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th rowspan="2" scope="rowgroup" colspan="1">教师信息</th>
+          <th scope="row" colspan="1">姓名</th>
+          <td colspan="1" *ngIf="data.manual">{{data.manualTeacher}}</td>
+          <td colspan="1" *ngIf="!data.manual">{{data.Teacher.name}}</td>
+          <th scope="row" colspan="1">工号</th>
+          <td colspan="1">
+            <div *ngIf="!data.manual">{{data.Teacher.sid}}</div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" colspan="1">院系</th>
+          <td colspan="1">
+            <div *ngIf="!data.manual">{{data.Teacher.department}}</div>
+          </td>
+          <th scope="row" colspan="1">类型</th>
+          <td colspan="1">{{data.manual?'校外':'校内'}}</td>
+        </tr>
+        <tr>
+          <th rowspan="2" scope="rowgroup" colspan="1">夏令营活动信息</th>
+          <th scope="row" colspan="1">论文题目</th>
+          <td colspan="1">{{data.Student.topicName}}</td>
+          <th scope="row" colspan="1">论文类别</th>
+          <td colspan="1">{{data.Student.topicType}}</td>
+        </tr>
+        <tr>
+          <th scope="row" colspan="1">社会实践</th>
+          <td colspan="1">{{data.Student.topicSocialExp?'是':'否'}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

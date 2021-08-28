@@ -1,0 +1,79 @@
+<!-- 展示当前用户表格 -->
+<h4 nz-typography class="mt-2">当前教师</h4>
+<nz-table #currentUserInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayUserList!'>
+  <thead>
+    <tr>
+      <th nzCustomFilter>工号
+        <nz-filter-trigger [(nzVisible)]="visibleSearchSid" [nzActive]="searchSidValue.length > 0"
+          [nzDropdownMenu]="searchSidMenu">
+          <i nz-icon nzType="filter" nzTheme="twotone"></i>
+        </nz-filter-trigger>
+      </th>
+      <th nzCustomFilter>姓名
+        <nz-filter-trigger [(nzVisible)]="visibleSearchName" [nzActive]="searchNameValue.length > 0"
+          [nzDropdownMenu]="searchNameMenu">
+          <i nz-icon nzType="filter" nzTheme="twotone"></i>
+        </nz-filter-trigger>
+      </th>
+      <th>所在组号</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of currentUserInTable.data">
+      <td>{{ data.uid }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.groupGid }}</td>
+      <td>
+        <a nz-button nzType="link" (click)="showModalShowInfo(data)">查看更多信息</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除教师 {{data.name}} 吗?"
+          nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data)" (nzOnCancel)="deleteCancel()"
+          nzOkText="确认删除" nzCancelText="取消">删除教师</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!-- 姓名的搜索的下拉框 -->
+<nz-dropdown-menu #searchNameMenu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="p-2">
+      <input class="w-44 mb-2 block" nz-input placeholder="按名字搜索" [(ngModel)]="searchNameValue" />
+      <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchName()">
+        搜索
+      </button>
+      <button class="w-20" nz-button nzSize="small" (click)="resetName()">重置</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<!-- sid的搜索的下拉框 -->
+<nz-dropdown-menu #searchSidMenu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="p-2">
+      <input class="w-44 mb-2 block" nz-input placeholder="按账户搜索" [(ngModel)]="searchSidValue" />
+      <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchSid()">
+        搜索
+      </button>
+      <button class="w-20" nz-button nzSize="small" (click)="resetSid()">重置</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<!-- 查看个人信息的对话框 -->
+<nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleShowInfo" nzTitle="查看个人信息" (nzOnOk)="handleOkShowInfo()"
+  (nzOnCancel)="handleOkShowInfo()" [nzOkLoading]="isOkLoadingShowInfo">
+  <ng-container *nzModalContent>
+    <nz-descriptions nzTitle="" nzBordered>
+      <nz-descriptions-item nzTitle="工号">{{currentSelectedUser.uid}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="姓名">{{currentSelectedUser.name}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="所在组号">{{currentSelectedUser.groupGid}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="联系方式" nzSpan="3">{{currentSelectedUser.phone}}</nz-descriptions-item>
+
+    </nz-descriptions>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleOkShowInfo()">确认</button>
+  </div>
+</nz-modal>

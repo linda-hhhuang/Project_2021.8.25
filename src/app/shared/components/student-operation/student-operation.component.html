@@ -1,0 +1,170 @@
+<button class="mt-0 ml-2 h-10 w-60" nz-button [nzType]="'primary'"
+  (click)="showModalScore1()"><span>提交初试分数</span></button>
+
+<button class="mt-0 ml-4 h-10 w-60" nz-button [nzType]="'primary'"
+  (click)="showModalScore2()"><span>提交复试分数</span></button>
+
+<!-- 提交初试分数的对话框 -->
+<nz-modal [(nzVisible)]="isVisibleScore1" nzTitle="提交初试分数" (nzOnCancel)="handleCancelScore1()"
+  (nzOnOk)="handleOkScore1()" [nzOkLoading]="isOkLoadingScore1">
+  <ng-container *nzModalContent>
+    <nz-descriptions nzTitle="" nzBordered>
+      <nz-descriptions-item nzTitle="初试分数">
+        <input nz-input [(ngModel)]="this.score1" />
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancelScore1()">取消</button>
+    <button nz-button nzType="primary" (click)="handleOkScore1()" [nzLoading]="isOkLoadingScore1">确认提交</button>
+  </div>
+</nz-modal>
+
+<!-- 提交复试分数的对话框 -->
+<nz-modal [(nzVisible)]="isVisibleScore2" nzTitle="提交复试分数" (nzOnCancel)="handleCancelScore2()"
+  (nzOnOk)="handleOkScore2()" [nzOkLoading]="isOkLoadingScore2">
+  <ng-container *nzModalContent>
+    <nz-descriptions nzTitle="" nzBordered>
+      <nz-descriptions-item nzTitle="复试分数">
+        <input nz-input [(ngModel)]="this.score2" />
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancelScore2()">取消</button>
+    <button nz-button nzType="primary" (click)="handleOkScore2()" [nzLoading]="isOkLoadingScore2">确认提交</button>
+  </div>
+</nz-modal>
+
+<nz-descriptions nzTitle="申请状态信息" nzBordered>
+  <nz-descriptions-item nzTitle="初试分数">
+    {{ currentStudentInfo.score1==-1?"未打分":currentStudentInfo.score1 }}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="复试分数">
+    {{ currentStudentInfo.score2==-1?"未打分":currentStudentInfo.score2 }}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="初试通过状态">
+    {{currentStudentInfo.pass1?"已通过":'审核中'}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="材料审核状态">
+    {{status[currentStudentInfo.status]}}
+  </nz-descriptions-item>
+</nz-descriptions>
+
+<nz-descriptions nzTitle="学生申请表" nzBordered>
+  <nz-descriptions-item nzTitle="姓名">
+    {{currentStudentInfo.SignupTemplate.name}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="性别">
+    {{currentStudentInfo.SignupTemplate.sex}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="出生年月">
+    {{currentStudentInfo.SignupTemplate.birth}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="民族">
+    {{currentStudentInfo.SignupTemplate.nation}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="政治面貌">
+    {{currentStudentInfo.SignupTemplate.politic}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="学号">
+    {{currentStudentInfo.SignupTemplate.sid}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="本人证件照" [nzSpan]="3">
+    <div *ngIf="currentStudentInfo.SignupTemplate.photo!=''"><img src="{{currentStudentInfo.SignupTemplate.photo}}"
+        class="border-gray-400 border-solid max-h-64 w-auto h-auto">
+    </div>
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="籍贯" nzSpan="3">
+    {{currentStudentInfo.SignupTemplate.birthPlace}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="身份证号码" nzSpan="3">
+    {{currentStudentInfo.SignupTemplate.id}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="本科院校" nzSpan="2">
+    {{currentStudentInfo.SignupTemplate.university}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="本科院系" nzSpan="1">
+    {{currentStudentInfo.SignupTemplate.department}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="本科专业">
+    {{currentStudentInfo.SignupTemplate.major}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="入学时间">
+    {{currentStudentInfo.SignupTemplate.enrollmentTime}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="电话">
+    {{currentStudentInfo.SignupTemplate.phone}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="邮箱" nzSpan="2">
+    {{currentStudentInfo.SignupTemplate.email}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="紧急电话">
+    {{currentStudentInfo.SignupTemplate.emergencyPhone}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="家庭住址" nzSpan="3">
+    {{currentStudentInfo.SignupTemplate.address}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="是否获取免试生资格" nzSpan="3">
+    {{examFreestatus(currentStudentInfo.SignupTemplate.examFree)}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="申请人个人陈述" [nzSpan]="3">
+    {{currentStudentInfo.SignupTemplate.description}}
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="奖励与荣誉" [nzSpan]="3">
+    {{currentStudentInfo.SignupTemplate.reward}}
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="已取得的科研成果" [nzSpan]="3">
+    {{currentStudentInfo.SignupTemplate.achievements}}
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="本科成绩及排名 " [nzSpan]="3">
+    {{currentStudentInfo.SignupTemplate.score}}
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="外语成绩" [nzSpan]="3">
+    {{currentStudentInfo.SignupTemplate.englishScore}}
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="申请人声明" [nzSpan]="1">
+    本人保证以上信息的真实性和准确性，若所提交信息不真实或不准确，本人同意中山大学计算机学院拒绝本人申请或取消本人资格。
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="申请人声明签名" [nzSpan]="1">
+    <div *ngIf="currentStudentInfo.SignupTemplate.sign!=''"><img src="{{currentStudentInfo.SignupTemplate.sign}}"
+        class="border-gray-400 border-solid max-h-16 w-auto h-auto">
+    </div>
+  </nz-descriptions-item>
+
+  <nz-descriptions-item nzTitle="申请人声明签名日期" nzSpan="1">
+    {{currentStudentInfo.SignupTemplate.date}}
+  </nz-descriptions-item>
+</nz-descriptions>
+
+<nz-descriptions nzTitle="学生上传辅助资料" nzBordered>
+  <nz-table #currentFileInTable [nzPageSize]="10" [nzData]='fileList!'>
+    <thead>
+      <tr>
+        <th>文件名</th>
+        <th>上传时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of currentFileInTable.data">
+        <td>{{ data.filename }} </td>
+        <td>{{ formatDateTime(data.date) }}</td>
+        <td>
+          <a nz-button nzType="link" (click)="getUploadFile(data)">下载此材料</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-descriptions>
+
+<button (click)="statusPass()" nz-button nzType="primary" nz-tooltip
+  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终初试成绩" class="mt-2 ml-2">
+  通过材料审核
+</button>

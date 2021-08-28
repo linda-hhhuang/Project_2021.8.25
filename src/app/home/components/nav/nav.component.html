@@ -1,0 +1,17 @@
+<div class="flex justify-between bg-antd w-full h-12 items-center mb-2">
+  <div class="text-white text-2xl font-bold ml-4">
+    夏令营活动系统
+  </div>
+
+  <div class="text-white text-lg ">
+    您的账号 : {{user.uid}}
+  </div>
+
+  <div class="text-white text-lg ">
+    您的身份 : {{role[user.role]}}
+  </div>
+
+  <div class=" mr-4">
+    <button nz-button nzType="default" (click)='logout()'>登出</button>
+  </div>
+</div>
