@@ -1,189 +1,221 @@
-<p>admin-group works!</p>
-<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要增加一个新组吗？"
-  nzPopconfirmPlacement="bottom" (nzOnConfirm)="createNewGroupConfirm()" (nzOnCancel)="Cancel()" nzOkText="确认创建"
-  nzCancelText="取消"><span>创建一个新组</span></button>
+<div class="ml-8">
+  <button class="mt-2 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要增加一个新组吗？"
+    nzPopconfirmPlacement="bottom" (nzOnConfirm)="createNewGroupConfirm()" (nzOnCancel)="Cancel()" nzOkText="确认创建"
+    nzCancelText="取消"><span>创建一个新组</span></button>
 
-<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
-  (click)="showModalDeleteAllGroup()"><span>解散所有组</span></button>
+  <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'"
+    (click)="showModalDeleteAllGroup()"><span>解散所有组</span></button>
 
-<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要自动为所有未分组学生随机分组吗？"
-  nzPopconfirmPlacement="bottom" (nzOnConfirm)="AutoGroupConfirm()" (nzOnCancel)="Cancel()" nzOkText="确认执行"
-  nzCancelText="取消"><span>自动为所有未分组学生随机分组</span></button>
+  <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm
+    nzPopconfirmTitle="确定要自动为所有未分组学生随机分组吗？" nzPopconfirmPlacement="bottom" (nzOnConfirm)="AutoGroupConfirm()"
+    (nzOnCancel)="Cancel()" nzOkText="确认执行" nzCancelText="取消"><span>自动为所有未分组学生随机分组</span></button>
 
-<!-- 展示当前分组表格 -->
-<h4 nz-typography class="mt-2">当前分组</h4>
-<nz-table #currentGroupInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayGroupList!'>
-  <thead>
-    <tr>
-      <th nzCustomFilter>组号
-        <nz-filter-trigger [(nzVisible)]="visibleSearchGid" [nzActive]="searchGidValue.length > 0"
-          [nzDropdownMenu]="searchGidMenu">
-          <i nz-icon nzType="filter" nzTheme="twotone"></i>
-        </nz-filter-trigger>
-      </th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of currentGroupInTable.data">
-      <td>{{ data.gid }}</td>
-      <td>
-        <a nz-button nzType="link" (click)="showModalMember(data)">组内成员</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a nz-button nzType="link" (click)="showModalAddStudent(data)">在该组添加学生</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a nz-button nzType="link" (click)="showModalAddTeacher(data)">在该组添加教师</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除组 ({{data.gid}}) 吗?"
-          nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteGroupConfirm(data)" (nzOnCancel)="Cancel()"
-          nzOkText="确认删除" nzCancelText="取消">删除此组</a>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+  <!-- 展示当前分组表格 -->
+  <h4 nz-typography class="mt-4">当前分组</h4>
+  <nz-table #currentGroupInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayGroupList!'>
+    <thead>
+      <tr>
+        <th nzCustomFilter>组号
+          <nz-filter-trigger [(nzVisible)]="visibleSearchGid" [nzActive]="searchGidValue.length > 0"
+            [nzDropdownMenu]="searchGidMenu">
+            <i nz-icon nzType="filter" nzTheme="twotone"></i>
+          </nz-filter-trigger>
+        </th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of currentGroupInTable.data">
+        <td>{{ data.gid }}</td>
+        <td>
+          <a nz-button nzType="link" (click)="showModalMember(data)">组内成员</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-button nzType="link" (click)="showModalAddStudent(data)">在该组添加学生</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-button nzType="link" (click)="showModalAddTeacher(data)">在该组添加教师</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除组 ({{data.gid}}) 吗?"
+            nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteGroupConfirm(data)" (nzOnCancel)="Cancel()"
+            nzOkText="确认删除" nzCancelText="取消">删除此组</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 
 
 
-<!-- gid的搜索的下拉框 -->
-<nz-dropdown-menu #searchGidMenu="nzDropdownMenu">
-  <div class="ant-table-filter-dropdown">
-    <div class="p-2">
-      <input class="w-44 mb-2 block" nz-input placeholder="按组号搜索" [(ngModel)]="searchGidValue" />
-      <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchGid()">
-        搜索
-      </button>
-      <button class="w-20" nz-button nzSize="small" (click)="resetGid()">重置</button>
+  <!-- gid的搜索的下拉框 -->
+  <nz-dropdown-menu #searchGidMenu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="p-2">
+        <input class="w-44 mb-2 block" nz-input placeholder="按组号搜索" [(ngModel)]="searchGidValue" />
+        <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchGid()">
+          搜索
+        </button>
+        <button class="w-20" nz-button nzSize="small" (click)="resetGid()">重置</button>
+      </div>
     </div>
-  </div>
-</nz-dropdown-menu>
+  </nz-dropdown-menu>
 
-<!-- Delete的对话框 -->
-<nz-modal [(nzVisible)]="isVisibleDeleteAllGroup" nzTitle="解散所有组" (nzOnCancel)="handleCancelDeleteAllGroup()"
-  (nzOnOk)="handleOkDeleteAllGroup()" [nzOkLoading]="isOkLoadingDeleteAllGroup">
-  <ng-container *nzModalContent>
-    确定要将所有分组都解散（删除）吗？请谨慎操作！
-  </ng-container>
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="handleCancelDeleteAllGroup()">取消</button>
-    <button nz-button nzType="primary" (click)="handleOkDeleteAllGroup()"
-      [nzLoading]="isOkLoadingDeleteAllGroup">确认解散所有分组</button>
-  </div>
-</nz-modal>
+  <!-- Delete的对话框 -->
+  <nz-modal [(nzVisible)]="isVisibleDeleteAllGroup" nzTitle="解散所有组" (nzOnCancel)="handleCancelDeleteAllGroup()"
+    (nzOnOk)="handleOkDeleteAllGroup()" [nzOkLoading]="isOkLoadingDeleteAllGroup">
+    <ng-container *nzModalContent>
+      确定要将所有分组都解散（删除）吗？请谨慎操作！
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancelDeleteAllGroup()">取消</button>
+      <button nz-button nzType="primary" (click)="handleOkDeleteAllGroup()"
+        [nzLoading]="isOkLoadingDeleteAllGroup">确认解散所有分组</button>
+    </div>
+  </nz-modal>
 
-<!-- 自动分组的对话框 -->
-<nz-modal [nzStyle]="{ width: '50%' }" [(nzVisible)]="isVisibleAutoGroup" nzTitle="随机分组结果"
-  (nzOnCancel)="handleOkAutoGroup()" (nzOnOk)="handleOkAutoGroup()">
-  <ng-container *nzModalContent>
-    <h4 nz-typography class="mt-2">成功分配列表</h4>
-    <nz-table #currentSuccessInTable [nzData]='autoGroupSuccessList!'>
-      <thead>
-        <tr>
-          <th>学生账号</th>
-          <th>姓名</th>
-          <th>分配组号</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of currentSuccessInTable.data">
-          <td>{{ data.student.uid }}</td>
-          <td>{{ data.student.name }}</td>
-          <td>{{ data.dispatchTarget }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+  <!-- 自动分组的对话框 -->
+  <nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleAutoGroup" nzTitle="随机分组结果"
+    (nzOnCancel)="handleOkAutoGroup()" (nzOnOk)="handleOkAutoGroup()">
+    <ng-container *nzModalContent>
+      <h4 nz-typography class="mt-2">成功分配列表</h4>
+      <nz-table #currentSuccessInTable [nzData]='autoGroupSuccessList!'>
+        <thead>
+          <tr>
+            <th>学生账号</th>
+            <th>姓名</th>
+            <th>分配组号</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of currentSuccessInTable.data">
+            <td>{{ data.student.uid }}</td>
+            <td>{{ data.student.name }}</td>
+            <td>{{ data.dispatchTarget }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
 
-    <h4 nz-typography class="mt-2">失败分配列表</h4>
-    <nz-table #currentFailInTable [nzData]='autoGroupFailList!'>
-      <thead>
-        <tr>
-          <th>学生账号</th>
-          <th>姓名</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of currentFailInTable.data">
-          <td>{{ data.student.uid }}</td>
-          <td>{{ data.student.name }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+      <h4 nz-typography class="mt-2">失败分配列表</h4>
+      <nz-table #currentFailInTable [nzData]='autoGroupFailList!'>
+        <thead>
+          <tr>
+            <th>学生账号</th>
+            <th>姓名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of currentFailInTable.data">
+            <td>{{ data.student.uid }}</td>
+            <td>{{ data.student.name }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
 
-  </ng-container>
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="handleOkAutoGroup()">确定</button>
-  </div>
-</nz-modal>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleOkAutoGroup()">确定</button>
+    </div>
+  </nz-modal>
 
-<!-- 组内成员 -->
-<nz-modal [(nzVisible)]="isVisibleMember" nzTitle="组内成员" (nzOnCancel)="handleOkMember()" (nzOnOk)="handleOkMember()">
-  <ng-container *nzModalContent>
-    <h4 nz-typography class="mt-2" *ngIf="Gid!=-1">组号：{{Gid}}</h4>
-    <h4 nz-typography class="mt-2">组内教师列表</h4>
-    <nz-table #currentTeacherInTable [nzData]='currentDisplayTeacherList!'>
-      <thead>
-        <tr>
-          <th>教师账号</th>
-          <th>姓名</th>
-          <th>联系方式</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of currentTeacherInTable.data">
-          <td>{{ data.uid }}</td>
-          <td>{{ data.name }}</td>
-          <td>{{ data.phone }}</td>
-          <td>
-            <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除教师 {{data.name}} 吗?"
-              nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteTeacherFromGroup(data)" (nzOnCancel)="Cancel()"
-              nzOkText="确认删除" nzCancelText="取消">删除教师</a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+  <!-- 组内成员 -->
+  <nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleMember" nzTitle="组内成员" (nzOnCancel)="handleOkMember()"
+    (nzOnOk)="handleOkMember()">
+    <ng-container *nzModalContent>
+      <h4 nz-typography class="mt-2" *ngIf="Gid!=-1">组号：{{Gid}}</h4>
+      <h4 nz-typography class="mt-2">组内教师列表</h4>
+      <nz-table #currentTeacherInTable [nzData]='currentDisplayTeacherList!'>
+        <thead>
+          <tr>
+            <th>教师账号</th>
+            <th>姓名</th>
+            <th>联系方式</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of currentTeacherInTable.data">
+            <td>{{ data.uid }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.phone }}</td>
+            <td>
+              <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除教师 {{data.name}} 吗?"
+                nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteTeacherFromGroup(data)" (nzOnCancel)="Cancel()"
+                nzOkText="确认删除" nzCancelText="取消">删除教师</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
 
-    <h4 nz-typography class="mt-2">组内学生列表</h4>
-    <nz-table #currentStudentInTable [nzPageSize]="10" [nzData]='currentDisplayStudentList!'>
-      <thead>
-        <tr>
-          <th>学生账号</th>
-          <th>姓名</th>
-          <th>材料审核状态</th>
-          <th>初试分数</th>
-          <th>初试申请状态</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of currentStudentInTable.data">
-          <td>{{ data.uid }}</td>
-          <td>{{ data.name }}</td>
-          <td>{{status[data.status]}}</td>
-          <td>{{ data.score1==-1?"未打分":data.score1 }}</td>
-          <td>{{ data.pass1?"已通过":"审核中" }}</td>
-          <td>
-            <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生报名信息</a>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除学生 {{data.name}} 吗?"
-              nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteStudentFromGroup(data)" (nzOnCancel)="Cancel()"
-              nzOkText="确认删除" nzCancelText="取消">删除学生</a>
-        </tr>
-      </tbody>
-    </nz-table>
-  </ng-container>
+      <h4 nz-typography class="mt-2">组内学生列表</h4>
+      <nz-table #currentStudentInTable [nzPageSize]="10" [nzData]='currentDisplayStudentList!'>
+        <thead>
+          <tr>
+            <th>学生账号</th>
+            <th>姓名</th>
+            <th>材料审核状态</th>
+            <th>初试分数</th>
+            <th>初试申请状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of currentStudentInTable.data">
+            <td>{{ data.uid }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{status[data.status]}}</td>
+            <td>{{ data.score1==-1?"未打分":data.score1 }}</td>
+            <td>{{ data.pass1?"已通过":"审核中" }}</td>
+            <td>
+              <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生报名信息</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除学生 {{data.name}} 吗?"
+                nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteStudentFromGroup(data)" (nzOnCancel)="Cancel()"
+                nzOkText="确认删除" nzCancelText="取消">删除学生</a>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
 
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="handleOkMember()">确定</button>
-  </div>
-</nz-modal>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleOkMember()">确定</button>
+    </div>
+  </nz-modal>
 
-<!-- 查看学生的对话框 -->
-<nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleStudent" nzTitle="查看/操作学生报名表"
-  (nzOnOk)="handleOkStudent()" (nzOnCancel)="handleOkStudent()" [nzOkLoading]="isOkLoadingStudent">
-  <ng-container *nzModalContent>
-    <app-student-operation [studentUid]='this.studentUid'></app-student-operation>
-  </ng-container>
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="handleOkStudent()">确定</button>
-  </div>
-</nz-modal>
+  <!-- 查看学生的对话框 -->
+  <nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleStudent" nzTitle="查看/操作学生报名表"
+    (nzOnOk)="handleOkStudent()" (nzOnCancel)="handleOkStudent()" [nzOkLoading]="isOkLoadingStudent">
+    <ng-container *nzModalContent>
+      <app-student-operation [studentUid]='this.studentUid'></app-student-operation>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleOkStudent()">确定</button>
+    </div>
+  </nz-modal>
+
+  <!-- AddTeacher的对话框 -->
+  <nz-modal [(nzVisible)]="isVisibleAddTeacher" nzTitle="添加教师" (nzOnCancel)="handleCancelAddTeacher()"
+    (nzOnOk)="handleOkAddTeacher()" [nzOkLoading]="isOkLoadingAddTeacher">
+    <ng-container *nzModalContent>
+      向组号为{{Gid}}的组中添加教师，填入教师工号：
+      <input nz-input [(ngModel)]="addTeacherUid" />
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancelAddTeacher()">取消</button>
+      <button nz-button nzType="primary" (click)="handleOkAddTeacher()"
+        [nzLoading]="isOkLoadingAddTeacher">确认添加</button>
+    </div>
+  </nz-modal>
+
+  <!-- AddStudent的对话框 -->
+  <nz-modal [(nzVisible)]="isVisibleAddStudent" nzTitle="添加学生" (nzOnCancel)="handleCancelAddStudent()"
+    (nzOnOk)="handleOkAddStudent()" [nzOkLoading]="isOkLoadingAddStudent">
+    <ng-container *nzModalContent>
+      向组号为{{Gid}}的组中添加学生，填入学生账号：
+      <input nz-input [(ngModel)]="addStudentUid" />
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancelAddStudent()">取消</button>
+      <button nz-button nzType="primary" (click)="handleOkAddStudent()"
+        [nzLoading]="isOkLoadingAddStudent">确认添加</button>
+    </div>
+  </nz-modal>
+
+
+</div>

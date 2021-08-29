@@ -45,7 +45,6 @@ export class AdminMemberTeacherComponent implements OnInit {
       this.isVisibleShowInfo = true;
     });
   }
-
   handleOkShowInfo(): void {
     this.isVisibleShowInfo = false;
   }
@@ -75,6 +74,7 @@ export class AdminMemberTeacherComponent implements OnInit {
   deleteConfirm(user: Teacher) {
     this.memberSrvc.deleteMember(user.uid).subscribe((_) => {
       this.message.success('删除教师成功!');
+      this.ngOnInit();
     });
   }
 

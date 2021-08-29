@@ -10,12 +10,12 @@
       <nz-descriptions-item nzTitle="账号" nzSpan="2">
         {{currentStudentInfo.uid}} </nz-descriptions-item>
       <nz-descriptions-item nzTitle="夏令营成绩" nzSpan="3">
-        {{currentStudentInfo.score2}}</nz-descriptions-item>
+        {{currentStudentInfo.score2==-1?'暂无分数':currentStudentInfo.score2}}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="本人是否已经通过成绩审核" nzSpan="3">
         {{currentStudentInfo.status==3?'是':'否'}}</nz-descriptions-item>
     </nz-descriptions>
     <button (click)="ACK()" nz-button nzType="primary" nz-tooltip
-      nzTooltipTitle="确认成绩后请务必点击此按钮通过对个人成绩的审核，若对成绩有异议请联系教务部进行申诉。" class="mt-2 ml-2">
+      nzTooltipTitle="确认成绩后请务必点击此按钮通过对个人成绩的审核，若对成绩有异议请联系教务部进行申诉。" class="mt-6 ml-0">
       确认本人成绩
     </button>
 

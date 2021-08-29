@@ -28,8 +28,8 @@ export class NavComponent implements OnInit {
   logout() {
     this.userSrvc.logout().subscribe(() => {
       this.message.success(`成功登出！`);
-      this.router.navigateByUrl('/login');
     });
+    this.router.navigateByUrl('/login');
   }
   ngOnInit(): void {}
 }

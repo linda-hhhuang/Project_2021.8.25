@@ -12,7 +12,44 @@ import { StudentStatus } from '@ta/model/request';
 })
 export class StudentOperationComponent implements OnInit {
   @Input() studentUid: number = -1;
-  currentStudentInfo!: Student;
+  currentStudentInfo: Student = {
+    uid: 0,
+    name: '',
+    score1: 0,
+    pass1: false,
+    score2: 0,
+    status: 0,
+    groupGid: 0,
+    sign: '',
+    SignupTemplate: {
+      uid: 0,
+      name: '',
+      sex: '',
+      birth: '',
+      nation: '',
+      politic: '',
+      sid: '',
+      birthPlace: '',
+      id: '',
+      university: '',
+      department: '',
+      major: '',
+      enrollmentTime: '',
+      phone: '',
+      email: '',
+      address: '',
+      emergencyPhone: '',
+      examFree: null,
+      description: '',
+      reward: '',
+      achievements: '',
+      score: '',
+      englishScore: '',
+      photo: '',
+      sign: '',
+      date: '',
+    },
+  };
   fileList: FileList[] = [];
 
   score1: number = -1;
@@ -37,6 +74,8 @@ export class StudentOperationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.score1 = -1;
+    this.score2 = -1;
     this.optSrvc.getStudentInfo(this.studentUid).subscribe((student) => {
       this.currentStudentInfo = student.body;
       this.score1 = this.currentStudentInfo.score1;
@@ -54,7 +93,7 @@ export class StudentOperationComponent implements OnInit {
       })
       .subscribe((v) => {
         this.ngOnInit();
-        this.message.success(v.body.msg);
+        this.message.success('成功通过此学生材料审核！');
       });
   }
 
@@ -76,7 +115,7 @@ export class StudentOperationComponent implements OnInit {
         this.ngOnInit();
         this.isVisibleScore1 = false;
         this.isOkLoadingScore1 = false;
-        this.message.success(v.body.msg);
+        this.message.success('成功修改初试分数！');
       });
   }
   handleCancelScore1(): void {

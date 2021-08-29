@@ -65,13 +65,11 @@ export class StudentPersonalComponent implements OnInit {
 
   //报名表
   showModalUpdateInfo(): void {
-    this.requestrSrvc.currentStudent$
-      .pipe(filter((v) => v != null))
-      .subscribe((v) => {
-        console.log('in showModalUpdateInfo', v);
-        this.isVisibleUpdateInfo = true;
-        this.currentStudentInfo = v!;
-      });
+    this.requestrSrvc.getStudentInfo().subscribe((v) => {
+      console.log('in showModalUpdateInfo', v);
+      this.isVisibleUpdateInfo = true;
+      this.currentStudentInfo = v.body;
+    });
   }
   handleOkUpdateInfo(): void {
     this.isOkLoadingUpdateInfo = true;
@@ -126,6 +124,42 @@ export class StudentPersonalComponent implements OnInit {
     }
     this.fileList = this.fileList.concat(file);
     console.log('filelist', this.fileList);
+    return false;
+  };
+
+  beforeUploadSign = (file: any): boolean => {
+    if (file) {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e: any) => {
+        const bstr = reader.result!;
+        console.log('upload sign', file.size);
+        const isLt2M = file.size / 1024 < 100;
+        if (!isLt2M) {
+          this.message.error('签名图片大小需小于100KB!');
+        } else {
+          this.currentStudentInfo.SignupTemplate.sign = String(bstr);
+        }
+      };
+    }
+    return false;
+  };
+
+  beforeUploadPhoto = (file: any): boolean => {
+    if (file) {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e: any) => {
+        const bstr = reader.result!;
+        console.log('upload photo', file.size);
+        const isLt2M = file.size / 1024 < 1024;
+        if (!isLt2M) {
+          this.message.error('证件图片大小需小于1MB!');
+        } else {
+          this.currentStudentInfo.SignupTemplate.photo = String(bstr);
+        }
+      };
+    }
     return false;
   };
 

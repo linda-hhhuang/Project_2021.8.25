@@ -103,7 +103,7 @@ export class GroupService {
   addStudentInGroup(gid: number, uid: number) {
     return this.api
       .post<any>(`/group/${gid}/student/add`, {
-        studentUid: uid,
+        studentUid: Number(uid),
       })
       .pipe(
         tap({
@@ -135,7 +135,7 @@ export class GroupService {
   addTeacherInGroup(gid: number, uid: number) {
     return this.api
       .post<any>(`/group/${gid}/teacher/add`, {
-        teacherUid: uid,
+        teacherUid: Number(uid),
       })
       .pipe(
         tap({

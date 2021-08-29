@@ -1,7 +1,7 @@
-<button class="mt-0 ml-2 h-10 w-60" nz-button [nzType]="'primary'"
+<button class="mt-0 ml-0 h-8 w-48 mb-8" nz-button [nzType]="'primary'"
   (click)="showModalScore1()"><span>提交初试分数</span></button>
 
-<button class="mt-0 ml-4 h-10 w-60" nz-button [nzType]="'primary'"
+<button class="mt-0 ml-8 h-8 w-48 mb-8" nz-button [nzType]="'primary'"
   (click)="showModalScore2()"><span>提交复试分数</span></button>
 
 <!-- 提交初试分数的对话框 -->
@@ -10,7 +10,7 @@
   <ng-container *nzModalContent>
     <nz-descriptions nzTitle="" nzBordered>
       <nz-descriptions-item nzTitle="初试分数">
-        <input nz-input [(ngModel)]="this.score1" />
+        <nz-input-number [(ngModel)]="score1" [nzStep]="1"></nz-input-number>
       </nz-descriptions-item>
     </nz-descriptions>
   </ng-container>
@@ -26,7 +26,7 @@
   <ng-container *nzModalContent>
     <nz-descriptions nzTitle="" nzBordered>
       <nz-descriptions-item nzTitle="复试分数">
-        <input nz-input [(ngModel)]="this.score2" />
+        <nz-input-number [(ngModel)]="score2" [nzStep]="1"></nz-input-number>
       </nz-descriptions-item>
     </nz-descriptions>
   </ng-container>
@@ -38,10 +38,10 @@
 
 <nz-descriptions nzTitle="申请状态信息" nzBordered>
   <nz-descriptions-item nzTitle="初试分数">
-    {{ currentStudentInfo.score1==-1?"未打分":currentStudentInfo.score1 }}
+    {{ currentStudentInfo.score1===-1?"未打分":currentStudentInfo.score1 }}
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="复试分数">
-    {{ currentStudentInfo.score2==-1?"未打分":currentStudentInfo.score2 }}
+    {{ currentStudentInfo.score2===-1?"未打分":currentStudentInfo.score2 }}
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="初试通过状态">
     {{currentStudentInfo.pass1?"已通过":'审核中'}}
@@ -51,7 +51,7 @@
   </nz-descriptions-item>
 </nz-descriptions>
 
-<nz-descriptions nzTitle="学生申请表" nzBordered>
+<nz-descriptions nzTitle="学生申请表" nzBordered class="mt-4">
   <nz-descriptions-item nzTitle="姓名">
     {{currentStudentInfo.SignupTemplate.name}}
   </nz-descriptions-item>
@@ -108,6 +108,9 @@
   <nz-descriptions-item nzTitle="是否获取免试生资格" nzSpan="3">
     {{examFreestatus(currentStudentInfo.SignupTemplate.examFree)}}
   </nz-descriptions-item>
+</nz-descriptions>
+<nz-descriptions nzTitle="" nzBordered>
+
   <nz-descriptions-item nzTitle="申请人个人陈述" [nzSpan]="3">
     {{currentStudentInfo.SignupTemplate.description}}
   </nz-descriptions-item>
@@ -128,43 +131,43 @@
     {{currentStudentInfo.SignupTemplate.englishScore}}
   </nz-descriptions-item>
 
-  <nz-descriptions-item nzTitle="申请人声明" [nzSpan]="1">
+  <nz-descriptions-item nzTitle="申请人声明" [nzSpan]="3">
     本人保证以上信息的真实性和准确性，若所提交信息不真实或不准确，本人同意中山大学计算机学院拒绝本人申请或取消本人资格。
   </nz-descriptions-item>
 
-  <nz-descriptions-item nzTitle="申请人声明签名" [nzSpan]="1">
+  <nz-descriptions-item nzTitle="申请人声明签名" [nzSpan]="2">
     <div *ngIf="currentStudentInfo.SignupTemplate.sign!=''"><img src="{{currentStudentInfo.SignupTemplate.sign}}"
         class="border-gray-400 border-solid max-h-16 w-auto h-auto">
     </div>
   </nz-descriptions-item>
 
-  <nz-descriptions-item nzTitle="申请人声明签名日期" nzSpan="1">
+  <nz-descriptions-item nzTitle="申请人声明签名日期" [nzSpan]="1">
     {{currentStudentInfo.SignupTemplate.date}}
   </nz-descriptions-item>
 </nz-descriptions>
 
-<nz-descriptions nzTitle="学生上传辅助资料" nzBordered>
-  <nz-table #currentFileInTable [nzPageSize]="10" [nzData]='fileList!'>
-    <thead>
-      <tr>
-        <th>文件名</th>
-        <th>上传时间</th>
-        <th>操作</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of currentFileInTable.data">
-        <td>{{ data.filename }} </td>
-        <td>{{ formatDateTime(data.date) }}</td>
-        <td>
-          <a nz-button nzType="link" (click)="getUploadFile(data)">下载此材料</a>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-</nz-descriptions>
+<h4 nz-typography class="mt-4">学生上传辅助资料</h4>
+<nz-table #currentFileInTable [nzPageSize]="10" [nzData]='fileList!'>
+  <thead>
+    <tr>
+      <th>文件名</th>
+      <th>上传时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of currentFileInTable.data">
+      <td>{{ data.filename }} </td>
+      <td>{{ formatDateTime(data.date) }}</td>
+      <td>
+        <a nz-button nzType="link" (click)="getUploadFile(data)">下载此材料</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<!-- </nz-descriptions> -->
 
 <button (click)="statusPass()" nz-button nzType="primary" nz-tooltip
-  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终初试成绩" class="mt-2 ml-2">
+  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终初试成绩" class="mt-2 h-8 w-48">
   通过材料审核
 </button>

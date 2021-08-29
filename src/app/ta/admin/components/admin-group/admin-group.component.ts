@@ -173,6 +173,7 @@ export class AdminGroupComponent implements OnInit {
   deleteGroupConfirm(v: GroupList) {
     this.groupSrvc.deleteGroup(v.gid).subscribe((_) => {
       this.message.success(`成功删除组 ${v.gid}`);
+      this.ngOnInit();
     });
   }
 
@@ -184,7 +185,7 @@ export class AdminGroupComponent implements OnInit {
     });
   }
   handleOkAutoGroup(): void {
-    this.isVisibleAutoGroup = true;
+    this.isVisibleAutoGroup = false;
   }
 
   deleteTeacherFromGroup(data: Teacher) {
@@ -194,6 +195,8 @@ export class AdminGroupComponent implements OnInit {
         this.message.success(
           `成功把教师${data.name}从组 ${data.groupGid} 中删除`
         );
+        this.ngOnInit();
+        this.isVisibleMember = false;
       });
   }
 
@@ -204,6 +207,8 @@ export class AdminGroupComponent implements OnInit {
         this.message.success(
           `成功把学生${data.name}从组 ${data.groupGid} 中删除`
         );
+        this.ngOnInit();
+        this.isVisibleMember = false;
       });
   }
 }

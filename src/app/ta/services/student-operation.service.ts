@@ -44,11 +44,11 @@ export class StudentOperationService {
   }
 
   operateStudent(uid: number, status: any) {
-    return this.api.post<any>(`/member/student/${uid}`, status).pipe(
+    return this.api.put<any>(`/member/student/${uid}`, status).pipe(
       tap({
         next: (response) => {
           this.getStudentInfo(uid).subscribe();
-          this.memberSrvc.getStudentList().subscribe();
+          // this.memberSrvc.getStudentList().subscribe();
           console.log('in Member service getStudentInfo', response);
         },
         error: (err) => {
@@ -63,7 +63,7 @@ export class StudentOperationService {
       tap({
         next: (response) => {
           this.fileList.next(response.body);
-          console.log('in member service getStudent ok', response);
+          console.log('in member service getUploadList ok', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);

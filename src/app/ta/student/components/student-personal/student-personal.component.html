@@ -1,16 +1,16 @@
-<div class="mt-3 mb-4">
+<div class="mt-3 mb-4 ml-8">
   <span class="text-2xl">当前审核状态 : </span>
   <span class="text-3xl font-bold" nz-typography [nzType]='AntdStatus(currentStatus)'>{{status[currentStatus]}}</span>
   <span><i nz-icon nzType="exclamation-circle" nzTheme="twotone" nz-tooltip
       nzTooltipTitle="请注意当教务已经通过材料审核时,改动文件会导致审核结果重置！" *ngIf="currentStatus==0"></i></span>
-  <button nz-button [nzType]="'primary'" class="ml-32" nz-tooltip nzTooltipTitle="请务必下载夏令营营员诚信承诺书并填入相关信息并上传到材料中供教务审核！">
+  <button nz-button [nzType]="'primary'" class="ml-16" nz-tooltip nzTooltipTitle="请务必下载夏令营营员诚信承诺书并填入相关信息并上传到材料中供教务审核！">
     <a href='/assets/中山大学计算机学院2021年优秀大学生夏令营营员诚信承诺书.docx' download>下载诚信考生承诺书</a>
   </button>
 </div>
 
 <button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
   (click)="showModalUpdateInfo()"><span>填写夏令营活动报名表</span></button>
-
+<br>
 <button class="mt-6 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
   (click)="showModalUpload()"><span>上传相关证明文件</span></button>
 
@@ -20,7 +20,6 @@
   (nzOnCancel)="handleCancelUpdateInfo()" (nzOnOk)="handleOkUpdateInfo()" [nzOkLoading]="isOkLoadingUpdateInfo">
   <ng-container *nzModalContent>
     <nz-descriptions nzTitle="" nzBordered>
-
       <nz-descriptions-item nzTitle="姓名">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.name" />
       </nz-descriptions-item>
@@ -43,14 +42,14 @@
         <div *ngIf="currentStudentInfo.SignupTemplate.photo!=''"><img src="{{currentStudentInfo.SignupTemplate.photo}}"
             class="border-gray-400 border-solid max-h-64 w-auto h-auto">
         </div>
-        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUpload"
+        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadPhoto"
           *ngIf="currentStudentInfo.SignupTemplate.photo==''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
             <span>选择要上传的证件照(图片)</span>
           </button>
         </nz-upload>
-        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUpload"
+        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadPhoto"
           *ngIf="currentStudentInfo.SignupTemplate.photo!=''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
@@ -95,6 +94,8 @@
           <label nz-radio [nzValue]='false'>否</label><label nz-radio [nzValue]='null'>暂未确定</label>
         </nz-radio-group>
       </nz-descriptions-item>
+    </nz-descriptions>
+    <nz-descriptions nzTitle="" nzBordered>
 
       <nz-descriptions-item nzTitle="申请人个人陈述：（限300字以内） （请介绍你的学术背景、曾参与过的科研工作、科研学术兴趣、下一阶段的学习和研究计划、其它特长以及你认为对于申请有参考价值的内容） "
         [nzSpan]="3">
@@ -140,14 +141,14 @@
         <div *ngIf="currentStudentInfo.SignupTemplate.sign!=''"><img src="{{currentStudentInfo.SignupTemplate.sign}}"
             class="border-gray-400 border-solid max-h-16 w-auto h-auto">
         </div>
-        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUpload"
+        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadSign"
           *ngIf="currentStudentInfo.SignupTemplate.sign==''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
             <span>选择要上传的签名(图片)</span>
           </button>
         </nz-upload>
-        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUpload"
+        <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadSign"
           *ngIf="currentStudentInfo.SignupTemplate.sign!=''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>

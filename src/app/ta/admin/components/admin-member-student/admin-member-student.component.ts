@@ -51,6 +51,7 @@ export class AdminMemberStudentComponent implements OnInit {
   }
   handleOkStudent(): void {
     this.isVisibleStudent = false;
+    this.ngOnInit();
   }
 
   resetName(): void {
@@ -71,13 +72,14 @@ export class AdminMemberStudentComponent implements OnInit {
   searchSid(): void {
     this.visibleSearchSid = false;
     this.currentDisplayUserList = this.studentList!.filter(
-      (item: Student) => String(item.sid).indexOf(this.searchSidValue) !== -1
+      (item: Student) => String(item.uid).indexOf(this.searchSidValue) !== -1
     );
   }
 
   deleteConfirm(user: Student) {
     this.memberSrvc.deleteMember(user.uid).subscribe((_) => {
       this.message.success('删除学生成功!');
+      this.ngOnInit();
     });
   }
 
@@ -88,6 +90,7 @@ export class AdminMemberStudentComponent implements OnInit {
       })
       .subscribe((_) => {
         this.message.success('成功通过学生初试申请!');
+        this.ngOnInit();
       });
   }
 
@@ -104,6 +107,7 @@ export class AdminMemberStudentComponent implements OnInit {
       );
       this.isOkLoadingPass = false;
       this.isVisiblePass = false;
+      this.ngOnInit();
     });
   }
   handleCancelPass(): void {
@@ -122,6 +126,7 @@ export class AdminMemberStudentComponent implements OnInit {
       this.message.success('成功撤销所有学生的初试申请!');
       this.isOkLoadingDelete = false;
       this.isVisibleDelete = false;
+      this.ngOnInit();
     });
   }
   handleCancelDelete(): void {

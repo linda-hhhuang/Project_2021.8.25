@@ -39,7 +39,7 @@ export class TeacherApplyComponent implements OnInit {
       this.studentList = v.body.Students;
       this.currentDisplayStudentList = v.body.Students;
       this.teacherList = v.body.Teacher;
-      this.currentDisplayTeacherList = v.body.Teacher;
+      this.currentDisplayTeacherList = v.body.Teachers;
       this.Gid = v.body.gid;
     });
   }
@@ -51,6 +51,7 @@ export class TeacherApplyComponent implements OnInit {
     this.isVisibleStudent = true;
   }
   handleOkStudent(): void {
+    this.ngOnInit();
     this.isVisibleStudent = false;
   }
 }

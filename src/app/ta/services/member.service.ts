@@ -67,6 +67,7 @@ export class MemberService {
       })
     );
   }
+
   getStudentList() {
     return this.api.get<any>('/member/student/list').pipe(
       tap({
@@ -154,7 +155,7 @@ export class MemberService {
 
   //多余
   operateStudent(uid: number, status: any) {
-    return this.api.post<any>(`/member/student/${uid}`, status).pipe(
+    return this.api.put<any>(`/member/student/${uid}`, status).pipe(
       tap({
         next: (response) => {
           this.getStudentList().subscribe();

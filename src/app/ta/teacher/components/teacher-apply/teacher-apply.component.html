@@ -1,4 +1,4 @@
-<div class="ml-8">
+<div class="ml-8 mr-8">
   <h4 nz-typography class="mt-2" *ngIf="Gid!=-1">组号：{{Gid}}</h4>
   <h4 nz-typography class="mt-2">组内教师列表</h4>
   <nz-table #currentTeacherInTable [nzData]='currentDisplayTeacherList!'>
@@ -47,7 +47,7 @@
 
 
   <!-- 查看学生的对话框 -->
-  <nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleStudent" nzTitle="查看/操作学生报名表"
+  <nz-modal [nzStyle]="{ width: '86%' }" [(nzVisible)]="isVisibleStudent" nzTitle="查看/操作学生报名表"
     (nzOnOk)="handleOkStudent()" (nzOnCancel)="handleOkStudent()" [nzOkLoading]="isOkLoadingStudent">
     <ng-container *nzModalContent>
       <app-student-operation [studentUid]='this.studentUid'></app-student-operation>
