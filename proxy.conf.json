@@ -1,6 +1,6 @@
 {
   "/api/**": {
-    "target": "http://172.16.2.218:6008/",
+    "target": "http://172.18.198.146:6008/",
     "secure": false,
     "changeOrigin": true,
     "cookieDomainRewrite": "",

@@ -24,10 +24,6 @@ export class PrintComponent implements OnInit {
     this.route.paramMap
       .pipe(
         tap((params: ParamMap) => {
-          console.log(
-            'in print-component-ngOninit , get ID : ',
-            params.get('id')!
-          );
           this.id = params.get('id');
         })
       )
