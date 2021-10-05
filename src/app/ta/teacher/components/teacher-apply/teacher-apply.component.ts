@@ -46,7 +46,6 @@ export class TeacherApplyComponent implements OnInit {
 
   //查看申请信息
   showModalStudent(e: Student) {
-    console.log('in Student ', e);
     this.studentUid = e.uid;
     this.isVisibleStudent = true;
   }

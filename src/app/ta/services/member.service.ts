@@ -46,7 +46,6 @@ export class MemberService {
       tap({
         next: (response) => {
           this.teacherList.next(response.body);
-          console.log('in Member service getTeacherList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -59,7 +58,6 @@ export class MemberService {
       tap({
         next: (response) => {
           this.teacher.next(response.body);
-          console.log('in Member service getTeacherInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -73,7 +71,6 @@ export class MemberService {
       tap({
         next: (response) => {
           this.studentList.next(response.body);
-          console.log('in Member service getStudentList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -88,7 +85,6 @@ export class MemberService {
         next: (response) => {
           this.getTeacherList().subscribe();
           this.getStudentList().subscribe();
-          console.log('in Member service getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -108,7 +104,6 @@ export class MemberService {
         tap({
           next: (response) => {
             this.getStudentList().subscribe();
-            console.log('in Member service getStudentInfo', response);
           },
           error: (err) => {
             this.handleError(err.error.msg);
@@ -122,7 +117,6 @@ export class MemberService {
       tap({
         next: (response) => {
           this.getStudentList().subscribe();
-          console.log('in Member service getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -137,7 +131,6 @@ export class MemberService {
       tap({
         next: (response) => {
           this.teacherGroup.next(response.body);
-          console.log('in Member service GetTeacherGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -160,7 +153,6 @@ export class MemberService {
         next: (response) => {
           this.getStudentList().subscribe();
           this.getStudentInfo(uid).subscribe();
-          console.log('in Member service getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -175,7 +167,6 @@ export class MemberService {
       tap({
         next: (response) => {
           this.student.next(response.body);
-          console.log('in Member service getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);

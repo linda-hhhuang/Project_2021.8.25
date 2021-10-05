@@ -37,7 +37,7 @@ export class TimeService {
         next: (response) => {
           this.currentTimeFrom.next(Number(response.body.start));
           this.currentTimeTo.next(Number(response.body.end));
-          console.log('in user service getTime ok', response);
+
           const now = Date.now();
           if (now < Number(response.body.start)) this.currentStatus.next(0);
           else if (now > Number(response.body.end)) this.currentStatus.next(2);
@@ -66,7 +66,6 @@ export class TimeService {
             else if (now > Number(response.body.end))
               this.currentStatus.next(2);
             else this.currentStatus.next(1);
-            console.log('in user service setTime ok', response);
           },
           error: (err) => {
             this.handleError(err.error.msg);

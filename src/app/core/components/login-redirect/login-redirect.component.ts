@@ -18,7 +18,6 @@ export class LoginRedirectComponent implements OnInit, OnDestroy {
     private message: GlobalMessageService
   ) {}
   ngOnInit() {
-    console.log('in redirect');
     this.userServ.isLogin$
       .pipe(
         skipWhile((v) => v == -1),
@@ -27,10 +26,8 @@ export class LoginRedirectComponent implements OnInit, OnDestroy {
       )
       .subscribe((isLoggedIn) => {
         if (isLoggedIn) {
-          console.log('redirect home-true');
           this.router.navigate(['/home']);
         } else {
-          console.log('redirect login-false');
           this.message.warning('登录超时,请重新登录');
           this.router.navigate(['/login']);
         }

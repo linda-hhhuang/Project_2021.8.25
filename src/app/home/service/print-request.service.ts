@@ -31,7 +31,6 @@ export class PrintRequestService {
       tap({
         next: (response) => {
           this.requestList.next([response.body]);
-          console.log('in print-request service getRequest', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -46,7 +45,6 @@ export class PrintRequestService {
       tap({
         next: (response) => {
           this.requestList.next(response.body);
-          console.log('in print-request service getRequestInfoList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);

@@ -33,9 +33,7 @@ export class StudentOperationService {
   getStudentInfo(uid: number) {
     return this.api.get<any>(`/member/student/${uid}`).pipe(
       tap({
-        next: (response) => {
-          console.log('in Member service getStudentInfo', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },
@@ -49,7 +47,6 @@ export class StudentOperationService {
         next: (response) => {
           this.getStudentInfo(uid).subscribe();
           // this.memberSrvc.getStudentList().subscribe();
-          console.log('in Member service getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -63,7 +60,6 @@ export class StudentOperationService {
       tap({
         next: (response) => {
           this.fileList.next(response.body);
-          console.log('in member service getUploadList ok', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);

@@ -38,7 +38,6 @@ export class PrintComponent implements OnInit {
           this.requestSrvc.getRequestInfo(+this.id).subscribe();
         }
       });
-    console.log('in print-component-ngOninit');
   }
 
   print() {

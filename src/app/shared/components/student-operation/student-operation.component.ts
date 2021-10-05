@@ -119,7 +119,6 @@ export class StudentOperationComponent implements OnInit {
       });
   }
   handleCancelScore1(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingScore1 = false;
     this.isVisibleScore1 = false;
   }
@@ -142,7 +141,6 @@ export class StudentOperationComponent implements OnInit {
       });
   }
   handleCancelScore2(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingScore2 = false;
     this.isVisibleScore2 = false;
   }

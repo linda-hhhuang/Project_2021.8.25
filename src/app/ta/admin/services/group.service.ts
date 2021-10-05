@@ -35,7 +35,6 @@ export class GroupService {
       tap({
         next: (response) => {
           this.groupList.next(response.body);
-          console.log('in Group service getGroupList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -49,7 +48,6 @@ export class GroupService {
       tap({
         next: (response) => {
           // 返回GroupList实例
-          console.log('in Group service createGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -63,7 +61,6 @@ export class GroupService {
       tap({
         next: (response) => {
           this.getGroupList().subscribe();
-          console.log('in Group service deleteGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -77,7 +74,6 @@ export class GroupService {
       tap({
         next: (response) => {
           this.getGroupList().subscribe();
-          console.log('in Group service addStudentInGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -91,7 +87,6 @@ export class GroupService {
       tap({
         next: (response) => {
           this.groupMember.next(response.body);
-          console.log('in Group service getMemberInGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -109,7 +104,6 @@ export class GroupService {
         tap({
           next: (response) => {
             this.getMemberInGroup(gid).subscribe();
-            console.log('in Group service addStudentInGroup', response);
           },
           error: (err) => {
             this.handleError(err.error.msg);
@@ -123,7 +117,6 @@ export class GroupService {
       tap({
         next: (response) => {
           this.getMemberInGroup(gid).subscribe();
-          console.log('in Group service deleteStudentInGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -141,7 +134,6 @@ export class GroupService {
         tap({
           next: (response) => {
             this.getMemberInGroup(gid).subscribe();
-            console.log('in Group service addTeacherInGroup', response);
           },
           error: (err) => {
             this.handleError(err.error.msg);
@@ -155,7 +147,6 @@ export class GroupService {
       tap({
         next: (response) => {
           this.getMemberInGroup(gid).subscribe();
-          console.log('in Group service deleteTeacherInGroup', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -169,9 +160,7 @@ export class GroupService {
     // "failList": []
     return this.api.post<any>(`/group/random`, null).pipe(
       tap({
-        next: (response) => {
-          console.log('in Group service autoGroup', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },

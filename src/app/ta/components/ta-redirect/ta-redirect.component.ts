@@ -21,7 +21,6 @@ export class TARedirectComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('in redirect ta');
     this.userServ.memberRole$
       .pipe(
         skipWhile((v) => v == -1),
@@ -29,7 +28,6 @@ export class TARedirectComponent implements OnInit {
         takeUntil(this.ngOnDestroy$)
       )
       .subscribe((role) => {
-        console.log('in ta redirect ,role is ', role);
         if (role == 0 || role == 1) {
           this.router.navigate(['admin'], { relativeTo: this.route });
         } else if (role == 2) {

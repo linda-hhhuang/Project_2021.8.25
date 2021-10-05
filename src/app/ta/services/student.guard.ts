@@ -18,17 +18,11 @@ export class StudentGuard implements CanActivate {
     private message: GlobalMessageService
   ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('in admin.guard');
-    this.userServ
-      .memberInit()
-      .subscribe((_) =>
-        console.log('subscribe memberinit in guard(ta/admin) and ', _)
-      );
+    this.userServ.memberInit().subscribe();
     return this.userServ.memberRole$.pipe(
       skipWhile((v) => v == -1),
       map((role) => {
         if (role == 3) {
-          console.log('ta/student.guard: role=3 : true(default)');
           return true;
         } else {
           this.message.error('您无权进入此版块');

@@ -69,7 +69,6 @@ export class AdminGroupComponent implements OnInit {
 
   //查看成员
   showModalMember(e: GroupList) {
-    console.log('in showModalMember ', e);
     this.groupSrvc.getMemberInGroup(e.gid).subscribe((v) => {
       this.isVisibleMember = true;
       this.teacherList = this.currentDisplayTeacherList = v.body.Teachers;
@@ -83,7 +82,6 @@ export class AdminGroupComponent implements OnInit {
 
   //查看申请信息
   showModalStudent(e: Student) {
-    console.log('in Student ', e);
     this.studentUid = e.uid;
     this.isVisibleStudent = true;
   }
@@ -104,7 +102,6 @@ export class AdminGroupComponent implements OnInit {
     });
   }
   handleCancelDeleteAllGroup(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingDeleteAllGroup = false;
     this.isVisibleDeleteAllGroup = false;
   }
@@ -125,7 +122,6 @@ export class AdminGroupComponent implements OnInit {
       });
   }
   handleCancelAddTeacher(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingAddTeacher = false;
     this.isVisibleAddTeacher = false;
   }
@@ -146,7 +142,6 @@ export class AdminGroupComponent implements OnInit {
       });
   }
   handleCancelAddStudent(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingAddStudent = false;
     this.isVisibleAddStudent = false;
   }

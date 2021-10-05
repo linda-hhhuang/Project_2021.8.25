@@ -45,7 +45,6 @@ export class AdminMemberStudentComponent implements OnInit {
   }
 
   showModalStudent(e: any) {
-    console.log('in Student ', e);
     this.studentUid = e.uid;
     this.isVisibleStudent = true;
   }
@@ -111,7 +110,6 @@ export class AdminMemberStudentComponent implements OnInit {
     });
   }
   handleCancelPass(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingPass = false;
     this.isVisiblePass = false;
   }
@@ -130,7 +128,6 @@ export class AdminMemberStudentComponent implements OnInit {
     });
   }
   handleCancelDelete(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingDelete = false;
     this.isVisibleDelete = false;
   }
