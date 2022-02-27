@@ -146,6 +146,21 @@ export class MemberService {
     }
   }
 
+  importTeacher(sid: number, phone: string) {
+    return this.api
+      .post<any>(`/member/teacher/import`, [{ sid: sid, phone: phone }])
+      .pipe(
+        tap({
+          next: (response) => {
+            this.getTeacherList().subscribe();
+          },
+          error: (err) => {
+            this.handleError(err.error.msg);
+          },
+        })
+      );
+  }
+
   //多余
   operateStudent(uid: number, status: any) {
     return this.api.put<any>(`/member/student/${uid}`, status).pipe(

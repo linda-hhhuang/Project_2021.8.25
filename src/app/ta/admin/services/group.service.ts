@@ -155,10 +155,67 @@ export class GroupService {
     );
   }
 
-  autoGroup() {
+  autoGroup(teacherNumPerGroup: number, groupNum: number) {
     // "successList": [],
     // "failList": []
-    return this.api.post<any>(`/group/random`, null).pipe(
+    return this.api
+      .post<any>(`/group/random`, {
+        studentConfig: {
+          pass1: false,
+          confirm1: 0,
+          status: 1,
+        },
+        groupConfig: {
+          groupNum: groupNum,
+          teacherNumPerGroup: teacherNumPerGroup,
+        },
+      })
+      .pipe(
+        tap({
+          next: (response) => {},
+          error: (err) => {
+            this.handleError(err.error.msg);
+          },
+        })
+      );
+  }
+
+  autoGroup2(teacherNumPerGroup: number, groupNum: number) {
+    // "successList": [],
+    // "failList": []
+    return this.api
+      .post<any>(`/group/random`, {
+        studentConfig: {
+          pass1: true,
+          confirm1: 1,
+          useFinalScore: true,
+        },
+        groupConfig: {
+          groupNum: groupNum,
+          teacherNumPerGroup: teacherNumPerGroup,
+        },
+      })
+      .pipe(
+        tap({
+          next: (response) => {},
+          error: (err) => {
+            this.handleError(err.error.msg);
+          },
+        })
+      );
+  }
+  LockConfirm() {
+    return this.api.post<any>(`/member/lockScore1`, {}).pipe(
+      tap({
+        next: (response) => {},
+        error: (err) => {
+          this.handleError(err.error.msg);
+        },
+      })
+    );
+  }
+  UnLockConfirm() {
+    return this.api.post<any>(`/member/unlockScore1`, {}).pipe(
       tap({
         next: (response) => {},
         error: (err) => {

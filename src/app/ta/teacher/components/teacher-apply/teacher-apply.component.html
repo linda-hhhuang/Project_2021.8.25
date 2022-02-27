@@ -24,9 +24,12 @@
       <tr>
         <th>学生账号</th>
         <th>姓名</th>
-        <th>材料审核状态</th>
-        <th>初试分数</th>
-        <th>初试申请状态</th>
+        <th>材料形式审查</th>
+        <th>原始分数</th>
+        <th>最终分数</th>
+        <th>材料审核申请状态</th>
+        <th>面试确认申请</th>
+
         <th>操作</th>
       </tr>
     </thead>
@@ -34,11 +37,13 @@
       <tr *ngFor="let data of currentStudentInTable.data">
         <td>{{ data.uid }}</td>
         <td>{{ data.name }}</td>
-        <td>{{status[data.status]}}</td>
+        <td>{{ status[data.status]}}</td>
         <td>{{ data.score1==-1?"未打分":data.score1 }}</td>
+        <td>{{ data.finalscore1==-1?"未打分":data.finalscore1 }}</td>
         <td>{{ data.pass1?"已通过":"审核中" }}</td>
+        <td>{{ data.confirm1==1?"已确认参加":data.confirm1==-1?'已拒绝参加':'待确认'}}</td>
         <td>
-          <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生报名信息</a>
+          <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生信息</a>
 
       </tr>
     </tbody>

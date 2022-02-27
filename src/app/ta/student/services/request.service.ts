@@ -46,31 +46,46 @@ export class RequestService {
   updateStudentInfo(update: Student) {
     return this.api
       .put<any>('signup/me', {
+        uid: update.SignupTemplate.uid,
         name: update.SignupTemplate.name,
         sex: update.SignupTemplate.sex,
         birth: update.SignupTemplate.birth,
         nation: update.SignupTemplate.nation,
         politic: update.SignupTemplate.politic,
-        id: update.SignupTemplate.id,
         sid: update.SignupTemplate.sid,
         birthPlace: update.SignupTemplate.birthPlace,
+        id: update.SignupTemplate.id,
         university: update.SignupTemplate.university,
         department: update.SignupTemplate.department,
+
         major: update.SignupTemplate.major,
         enrollmentTime: update.SignupTemplate.enrollmentTime,
         phone: update.SignupTemplate.phone,
         email: update.SignupTemplate.email,
+        qq: update.SignupTemplate.qq,
         address: update.SignupTemplate.address,
         emergencyPhone: update.SignupTemplate.emergencyPhone,
         examFree: update.SignupTemplate.examFree,
         description: update.SignupTemplate.description,
         reward: update.SignupTemplate.reward,
         achievements: update.SignupTemplate.achievements,
-        score: update.SignupTemplate.score,
-        englishScore: update.SignupTemplate.englishScore,
+
         photo: update.SignupTemplate.photo,
         sign: update.SignupTemplate.sign,
+        tutor: update.SignupTemplate.tutor,
         date: update.SignupTemplate.date,
+
+        scoreDate: update.SignupTemplate.scoreDate,
+        getScore: update.SignupTemplate.getScore,
+        maxScore: update.SignupTemplate.maxScore,
+        getRank: update.SignupTemplate.getRank,
+        maxRank: update.SignupTemplate.maxRank,
+        cet4Score: update.SignupTemplate.cet4Score,
+        cet6Score: update.SignupTemplate.cet6Score,
+        otherEnglishScore: update.SignupTemplate.otherEnglishScore,
+
+        volunteer1: update.SignupTemplate.volunteer1,
+        volunteer2: update.SignupTemplate.volunteer2,
       })
       .pipe(
         tap({
@@ -129,6 +144,19 @@ export class RequestService {
 
   ACKScore2() {
     return this.api.post<any>('/member/doublecheck', null).pipe(
+      tap({
+        next: (response) => {
+          this.getStudentInfo().subscribe();
+        },
+        error: (err) => {
+          this.handleError(err.error.msg);
+        },
+      })
+    );
+  }
+
+  confirmAttend(n: number) {
+    return this.api.post<any>('/member/confirm', { confirm: n }).pipe(
       tap({
         next: (response) => {
           this.getStudentInfo().subscribe();

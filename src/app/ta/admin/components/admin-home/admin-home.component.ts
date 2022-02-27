@@ -8,10 +8,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class AdminHomeComponent implements OnInit {
   date!: Date[];
+  signdate!: Date;
   setTimeFrom!: number;
   setTimeTo!: number;
+  setTimeSign!: number;
   currentTimeFrom!: string;
   currentTimeTo!: string;
+  currentsignEnd!: string;
 
   currentStatus: number = 0; //0-未开始,1-进行中,2-已结束
   status = ['未开始', '进行中', '已结束'];
@@ -39,6 +42,9 @@ export class AdminHomeComponent implements OnInit {
     this.setTimeFrom = this.date[0].getTime();
     this.setTimeTo = this.date[1].getTime();
   }
+  onSetSignChange(result: Date[]): void {
+    this.setTimeSign = this.signdate.getTime();
+  }
 
   init() {
     this.timeSrvc.currentTimeFrom$.subscribe((res) => {
@@ -46,6 +52,9 @@ export class AdminHomeComponent implements OnInit {
     });
     this.timeSrvc.currentTimeTo$.subscribe((res) => {
       this.currentTimeTo = this.timeSrvc.formatDateTime(new Date(res!));
+    });
+    this.timeSrvc.currentsignEnd$.subscribe((res) => {
+      this.currentsignEnd = this.timeSrvc.formatDateTime(new Date(res!));
     });
     this.timeSrvc.currentStatus$.subscribe((res) => {
       this.currentStatus = res;
@@ -61,12 +70,14 @@ export class AdminHomeComponent implements OnInit {
 
   handleOkSetTime(): void {
     this.isOkLoadingSetTime = true;
-    this.timeSrvc.setTime(this.setTimeFrom, this.setTimeTo).subscribe((res) => {
-      this.message.success('时间修改成功!');
-      this.isOkLoadingSetTime = false;
-      this.isVisibleSetTime = false;
-      this.init();
-    });
+    this.timeSrvc
+      .setTime(this.setTimeFrom, this.setTimeTo, this.setTimeSign)
+      .subscribe((res) => {
+        this.message.success('时间修改成功!');
+        this.isOkLoadingSetTime = false;
+        this.isVisibleSetTime = false;
+        this.init();
+      });
   }
 
   handleCancelSetTime(): void {

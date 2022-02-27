@@ -25,12 +25,18 @@ export class StudentPersonalComponent implements OnInit {
 
   uploading = false; // 初始值
 
+  isVisibleRandom = false;
+  isOkLoadingRandom = false;
+
   currentStatus: number = 0;
+  currentPass: number = 0;
+
+  currentConfirm: number = 0;
   status = [
     '等待教务审核',
-    '材料已被审核,请等待结果',
-    '材料已被审核,请等待结果',
-    '本人已通过夏令营成绩审核',
+    '材料已被审核,请留意成绩',
+    '材料已被审核,请留意成绩',
+    '本人已确认夏令营面试成绩',
   ];
   AntdStatus = function (v: number) {
     switch (v) {
@@ -55,6 +61,9 @@ export class StudentPersonalComponent implements OnInit {
   ngOnInit(): void {
     this.requestrSrvc.getStudentInfo().subscribe((student) => {
       this.currentStudentInfo = student.body;
+      this.currentStatus = student.body.status;
+      this.currentPass = student.body.pass1;
+      this.currentConfirm = student.body.confirm1;
     });
     this.requestrSrvc.getUploadFileList().subscribe((v) => {
       this.displayFileList = v.body;
@@ -92,6 +101,14 @@ export class StudentPersonalComponent implements OnInit {
   handleCancelUpdateInfo(): void {
     this.isOkLoadingUpdateInfo = false;
     this.isVisibleUpdateInfo = false;
+  }
+
+  //文件
+  showModalRandom(): void {
+    this.isVisibleRandom = true;
+  }
+  handleOkRandom(): void {
+    this.isVisibleRandom = false;
   }
 
   //文件
@@ -187,6 +204,13 @@ export class StudentPersonalComponent implements OnInit {
     this.requestrSrvc.studentdownloadUpload(data.fid);
   }
 
+  confirmAttend(n: number) {
+    this.requestrSrvc.confirmAttend(n).subscribe((_) => {
+      this.ngOnInit();
+      this.message.success(`成功确认是否面试`);
+      if (n === 1) this.showModalRandom();
+    });
+  }
   formatDateTime(dateString: string) {
     const date = new Date(dateString);
     let y = date.getFullYear();

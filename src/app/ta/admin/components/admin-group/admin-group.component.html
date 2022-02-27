@@ -6,9 +6,19 @@
   <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'"
     (click)="showModalDeleteAllGroup()"><span>解散所有组</span></button>
 
+  <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'"
+    (click)="showModalAutoGroupConfirm1()"><span>自动根据材料审核进行分组</span></button>
+
+  <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'"
+    (click)="showModalAutoGroupConfirm2()"><span>面试分组</span></button>
+
   <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm
-    nzPopconfirmTitle="确定要自动为所有未分组学生随机分组吗？" nzPopconfirmPlacement="bottom" (nzOnConfirm)="AutoGroupConfirm()"
-    (nzOnCancel)="Cancel()" nzOkText="确认执行" nzCancelText="取消"><span>自动为所有未分组学生随机分组</span></button>
+    nzPopconfirmTitle="确定要锁定最终成绩吗,锁定后学生的最终成绩将固定且不可更改,请谨慎操作" nzPopconfirmPlacement="bottom" (nzOnConfirm)="LockConfirm()"
+    (nzOnCancel)="Cancel()" nzOkText="确认执行" nzCancelText="取消"><span>锁定最终成绩</span></button>
+
+  <button class="mt-2 ml-11 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle=" "
+    nzPopconfirmPlacement="bottom" (nzOnConfirm)="UnLockConfirm()" (nzOnCancel)="Cancel()" nzOkText="确认执行"
+    nzCancelText="取消"><span>解锁最终成绩(测试用)</span></button>
 
   <!-- 展示当前分组表格 -->
   <h4 nz-typography class="mt-4">当前分组</h4>
@@ -56,6 +66,49 @@
       </div>
     </div>
   </nz-dropdown-menu>
+
+  <!-- Audogroup1的对话框 -->
+  <nz-modal [(nzVisible)]="isVisibleAutoGroupConfirm1" nzTitle="请输入每个组别的老师数量" [nzStyle]="{ width: '60%' }"
+    (nzOnCancel)="handleCancelAutoGroupConfirm1()" (nzOnOk)="handleOkAutoGroupConfirm1()"
+    [nzOkLoading]="isOkLoadingAutoGroupConfirm1">
+    <ng-container *nzModalContent>
+      <nz-descriptions nzTitle="" nzBordered>
+        <nz-descriptions-item nzTitle="需要分配得到多少个组">
+          <nz-input-number [(ngModel)]="autoGroupNum" [nzStep]="1"></nz-input-number>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="每组内教师数量">
+          <nz-input-number [(ngModel)]="autoGroupTPG" [nzStep]="1"></nz-input-number>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancelAutoGroupConfirm1()">取消</button>
+      <button nz-button nzType="primary" (click)="handleOkAutoGroupConfirm1()"
+        [nzLoading]="isOkLoadingAutoGroupConfirm1">确认</button>
+    </div>
+  </nz-modal>
+
+  <!-- Audogroup2的对话框 -->
+  <nz-modal [(nzVisible)]="isVisibleAutoGroupConfirm2" nzTitle="请输入每个组别的老师数量" [nzStyle]="{ width: '60%' }"
+    (nzOnCancel)="handleCancelAutoGroupConfirm2()" (nzOnOk)="handleOkAutoGroupConfirm2()"
+    [nzOkLoading]="isOkLoadingAutoGroupConfirm2">
+    <ng-container *nzModalContent>
+      <nz-descriptions nzTitle="" nzBordered>
+        <nz-descriptions-item nzTitle="需要分配得到多少个组">
+          <nz-input-number [(ngModel)]="autoGroupNum2" [nzStep]="1"></nz-input-number>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="每组内教师数量">
+          <nz-input-number [(ngModel)]="autoGroupTPG2" [nzStep]="1"></nz-input-number>
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancelAutoGroupConfirm2()">取消</button>
+      <button nz-button nzType="primary" (click)="handleOkAutoGroupConfirm2()"
+        [nzLoading]="isOkLoadingAutoGroupConfirm2">确认</button>
+    </div>
+  </nz-modal>
+
 
   <!-- Delete的对话框 -->
   <nz-modal [(nzVisible)]="isVisibleDeleteAllGroup" nzTitle="解散所有组" (nzOnCancel)="handleCancelDeleteAllGroup()"
@@ -149,9 +202,13 @@
           <tr>
             <th>学生账号</th>
             <th>姓名</th>
-            <th>材料审核状态</th>
-            <th>初试分数</th>
-            <th>初试申请状态</th>
+            <th>抽签顺序</th>
+
+            <th>材料形式审查</th>
+            <th>材料审核分数</th>
+            <th>材料资格审查</th>
+            <th>面试确认申请</th>
+
             <th>操作</th>
           </tr>
         </thead>
@@ -159,9 +216,13 @@
           <tr *ngFor="let data of currentStudentInTable.data">
             <td>{{ data.uid }}</td>
             <td>{{ data.name }}</td>
+            <td>{{ data.randomId }}</td>
+
             <td>{{status[data.status]}}</td>
-            <td>{{ data.score1==-1?"未打分":data.score1 }}</td>
+            <td>{{ data.allscore1}}</td>
             <td>{{ data.pass1?"已通过":"审核中" }}</td>
+            <td> {{data.confirm1==1?"已确认参加":data.confirm1==-1?'已拒绝参加':'待确认'}}</td>
+
             <td>
               <a nz-button nzType="link" (click)="showModalStudent(data)">查看/操作学生报名信息</a>
               <nz-divider nzType="vertical"></nz-divider>

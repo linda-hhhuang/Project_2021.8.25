@@ -13,28 +13,43 @@ export interface SignTemplate {
   id: string; // 身份证号码
   university: string; // 本科院校
   department: string; // 本科院系
+
   major: string; // 本科专业
   enrollmentTime: string; // 入学时间
   phone: string; // 电话
   email: string; // 邮箱
+  qq: string; // 邮箱
   address: string; // 家庭住址
   emergencyPhone: string; // 紧急电话
   examFree: boolean | null; // 是否获取免试生资格（null为未确定）
   description: string; // 300字以内个人介绍
   reward: string; // 奖励与荣誉
   achievements: string; // 已取得的科研成果
-  score: string; // 本科成绩及排名
-  englishScore: string; // 外语成绩
+
   photo: string; // 证件照片
   sign: string; // 签名
+  tutor: string;
   date: string; // 日期
+
+  scoreDate: string;
+  getScore: string;
+  maxScore: string;
+  getRank: number;
+  maxRank: number;
+  cet4Score: string;
+  cet6Score: string;
+  otherEnglishScore: string;
+
+  volunteer1: number;
+  volunteer2: number;
 }
 export interface StudentStatus {
   [index: string]: number | null | boolean;
   score1: number; // 初评分分数
   pass1: boolean; // 第一轮通过情况
+  confirm1: number; // 面试确认情况
   score2: number; // 夏令营成绩
-  status: number; // 材料审核状态
+  status: number; // 材料形式审查
   // Wait 0 材料待审核
   // Pass 1 材料被审核过的意思
   // Validate 2

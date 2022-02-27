@@ -17,6 +17,12 @@ export class AdminMemberTeacherComponent implements OnInit {
   isVisibleShowInfo = false;
   isOkLoadingShowInfo = false;
 
+  importSid = 0;
+  importPhone = '';
+
+  isVisibleImport = false;
+  isOkLoadingImport = false;
+
   isVisibleResetInfo = false;
   isOkLoadingResetInfo = false;
 
@@ -48,6 +54,27 @@ export class AdminMemberTeacherComponent implements OnInit {
     this.isVisibleShowInfo = false;
   }
 
+  showModalImport() {
+    this.isVisibleImport = true;
+  }
+  handleOkImport(): void {
+    this.isOkLoadingImport = true;
+
+    this.memberSrvc
+      .importTeacher(this.importSid, this.importPhone)
+      .subscribe((response) => {
+        this.message.success(response.msg);
+        this.isOkLoadingImport = false;
+        this.isVisibleImport = false;
+      });
+    this.importSid = 0;
+    this.importPhone = '';
+  }
+  handleCancelImport(): void {
+    this.importSid = 0;
+    this.importPhone = '';
+    this.isVisibleImport = false;
+  }
   resetName(): void {
     this.searchNameValue = '';
     this.searchName();

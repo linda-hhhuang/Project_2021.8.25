@@ -93,7 +93,7 @@ export class UserService {
           this.memberRole.next(this.user.value.role);
         })
       );
-    } else if (this.user.value.role == 3) {
+    } else if (this.user.value.role == 3 || this.user.value.role == 4) {
       return this.api.get<any>('/member/student/me').pipe(
         tap({
           next: (response) => {

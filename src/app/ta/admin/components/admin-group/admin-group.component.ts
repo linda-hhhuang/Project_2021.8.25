@@ -32,6 +32,18 @@ export class AdminGroupComponent implements OnInit {
   isVisibleDeleteAllGroup = false;
   isOkLoadingDeleteAllGroup = false;
 
+  isVisibleAutoGroupConfirm1 = false;
+  isOkLoadingAutoGroupConfirm1 = false;
+
+  isVisibleAutoGroupConfirm2 = false;
+  isOkLoadingAutoGroupConfirm2 = false;
+
+  autoGroupTPG = 1;
+  autoGroupNum = 10000;
+
+  autoGroupTPG2 = 1;
+  autoGroupNum2 = 10000;
+
   isVisibleAddStudent = false;
   isOkLoadingAddStudent = false;
   addStudentUid: number = -1;
@@ -46,12 +58,11 @@ export class AdminGroupComponent implements OnInit {
 
   searchGidValue = '';
   visibleSearchGid = false;
-
   status = [
     '等待教务审核',
-    '材料已被审核,请等待结果',
-    '材料已被审核,请等待结果',
-    '本人已通过夏令营成绩审核',
+    '材料已被审核,请留意成绩',
+    '材料已被审核,请留意成绩',
+    '本人已确认夏令营面试成绩',
   ];
 
   constructor(
@@ -95,8 +106,8 @@ export class AdminGroupComponent implements OnInit {
   }
   handleOkDeleteAllGroup(): void {
     this.isOkLoadingDeleteAllGroup = true;
-    this.memberSrvc.clearAllPass().subscribe((_) => {
-      this.message.success('成功撤销所有学生的初试申请!');
+    this.groupSrvc.deleteAllGroup().subscribe((_) => {
+      this.message.success('成功解散所有组!');
       this.isOkLoadingDeleteAllGroup = false;
       this.isVisibleDeleteAllGroup = false;
     });
@@ -106,6 +117,61 @@ export class AdminGroupComponent implements OnInit {
     this.isVisibleDeleteAllGroup = false;
   }
 
+  //autogroupconfirm
+  showModalAutoGroupConfirm1(): void {
+    this.isVisibleAutoGroupConfirm1 = true;
+  }
+  handleOkAutoGroupConfirm1(): void {
+    this.isOkLoadingAutoGroupConfirm1 = true;
+    this.groupSrvc
+      .autoGroup(this.autoGroupTPG, this.autoGroupNum)
+      .subscribe((v) => {
+        this.autoGroupSuccessList = v.body.successList;
+        this.autoGroupFailList = v.body.failList;
+        this.isVisibleAutoGroup = true;
+        this.isVisibleAutoGroupConfirm1 = false;
+        this.isOkLoadingAutoGroupConfirm1 = false;
+
+        this.autoGroupTPG = 0;
+      });
+  }
+  handleCancelAutoGroupConfirm1(): void {
+    this.isOkLoadingAutoGroupConfirm1 = false;
+    this.isVisibleAutoGroupConfirm1 = false;
+  }
+
+  //autogroupconfirm
+  showModalAutoGroupConfirm2(): void {
+    this.isVisibleAutoGroupConfirm2 = true;
+  }
+  handleOkAutoGroupConfirm2(): void {
+    this.isOkLoadingAutoGroupConfirm2 = true;
+    this.groupSrvc
+      .autoGroup2(this.autoGroupTPG2, this.autoGroupNum2)
+      .subscribe((v) => {
+        this.autoGroupSuccessList = v.body.successList;
+        this.autoGroupFailList = v.body.failList;
+        this.isVisibleAutoGroup = true;
+        this.isVisibleAutoGroupConfirm2 = false;
+        this.isOkLoadingAutoGroupConfirm2 = false;
+
+        this.autoGroupTPG2 = 0;
+      });
+  }
+  handleCancelAutoGroupConfirm2(): void {
+    this.isOkLoadingAutoGroupConfirm2 = false;
+    this.isVisibleAutoGroupConfirm2 = false;
+  }
+  LockConfirm() {
+    this.groupSrvc.LockConfirm().subscribe((_) => {
+      this.message.success('成功锁住最终成绩!');
+    });
+  }
+  UnLockConfirm() {
+    this.groupSrvc.UnLockConfirm().subscribe((_) => {
+      this.message.success('成功解锁最终成绩!');
+    });
+  }
   //AddTeacher
   showModalAddTeacher(data: GroupList): void {
     this.isVisibleAddTeacher = true;
@@ -161,7 +227,7 @@ export class AdminGroupComponent implements OnInit {
 
   createNewGroupConfirm() {
     this.groupSrvc.createGroup().subscribe((v) => {
-      this.message.success(`成功创建一个新租,组号为${v.body.gid}`);
+      this.message.success(`成功创建一个新组,组号为${v.body.gid}`);
       this.ngOnInit();
     });
   }
@@ -172,13 +238,6 @@ export class AdminGroupComponent implements OnInit {
     });
   }
 
-  AutoGroupConfirm() {
-    this.groupSrvc.autoGroup().subscribe((v) => {
-      this.autoGroupSuccessList = v.body.successList;
-      this.autoGroupFailList = v.body.failList;
-      this.isVisibleAutoGroup = true;
-    });
-  }
   handleOkAutoGroup(): void {
     this.isVisibleAutoGroup = false;
   }

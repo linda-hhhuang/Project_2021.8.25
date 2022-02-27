@@ -1,15 +1,15 @@
-<button class="mt-0 ml-0 h-8 w-48 mb-8" nz-button [nzType]="'primary'"
-  (click)="showModalScore1()"><span>提交初试分数</span></button>
+<button class="mt-0 ml-0 h-8 w-48 mb-8" nz-button [nzType]="'primary'" (click)="showModalScore1()"
+  *ngIf="currentScore1Flag"><span>提交材料审核分数</span></button>
 
-<button class="mt-0 ml-8 h-8 w-48 mb-8" nz-button [nzType]="'primary'"
-  (click)="showModalScore2()"><span>提交复试分数</span></button>
+<!-- <button class="mt-0 ml-8 h-8 w-48 mb-8" nz-button [nzType]="'primary'" (click)="showModalScore2()"
+  *ngIf="!currentScore1Flag"><span>提交面试分数</span></button> -->
 
-<!-- 提交初试分数的对话框 -->
-<nz-modal [(nzVisible)]="isVisibleScore1" nzTitle="提交初试分数" (nzOnCancel)="handleCancelScore1()"
+<!-- 提交材料审核分数的对话框 -->
+<nz-modal [(nzVisible)]="isVisibleScore1" nzTitle="提交材料审核分数" (nzOnCancel)="handleCancelScore1()"
   (nzOnOk)="handleOkScore1()" [nzOkLoading]="isOkLoadingScore1">
   <ng-container *nzModalContent>
     <nz-descriptions nzTitle="" nzBordered>
-      <nz-descriptions-item nzTitle="初试分数">
+      <nz-descriptions-item nzTitle="材料审核分数">
         <nz-input-number [(ngModel)]="score1" [nzStep]="1"></nz-input-number>
       </nz-descriptions-item>
     </nz-descriptions>
@@ -20,12 +20,12 @@
   </div>
 </nz-modal>
 
-<!-- 提交复试分数的对话框 -->
-<nz-modal [(nzVisible)]="isVisibleScore2" nzTitle="提交复试分数" (nzOnCancel)="handleCancelScore2()"
+<!-- 提交面试分数的对话框 -->
+<nz-modal [(nzVisible)]="isVisibleScore2" nzTitle="提交面试分数" (nzOnCancel)="handleCancelScore2()"
   (nzOnOk)="handleOkScore2()" [nzOkLoading]="isOkLoadingScore2">
   <ng-container *nzModalContent>
     <nz-descriptions nzTitle="" nzBordered>
-      <nz-descriptions-item nzTitle="复试分数">
+      <nz-descriptions-item nzTitle="面试分数">
         <nz-input-number [(ngModel)]="score2" [nzStep]="1"></nz-input-number>
       </nz-descriptions-item>
     </nz-descriptions>
@@ -37,18 +37,26 @@
 </nz-modal>
 
 <nz-descriptions nzTitle="申请状态信息" nzBordered>
-  <nz-descriptions-item nzTitle="初试分数">
-    {{ currentStudentInfo.score1===-1?"未打分":currentStudentInfo.score1 }}
+  <nz-descriptions-item nzTitle="原始分数" *ngIf="currentScore1Flag">
+    {{ currentStudentInfo.score1}}
   </nz-descriptions-item>
-  <nz-descriptions-item nzTitle="复试分数">
+  <nz-descriptions-item nzTitle="最终分数" *ngIf="currentScore1Flag">
+    {{ currentStudentInfo.finalscore1}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="材料审核分数" *ngIf="!currentScore1Flag">
+    {{ currentStudentInfo.allscore1}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="面试分数">
     {{ currentStudentInfo.score2===-1?"未打分":currentStudentInfo.score2 }}
   </nz-descriptions-item>
-  <nz-descriptions-item nzTitle="初试通过状态">
+  <nz-descriptions-item nzTitle="材料资格审查">
     {{currentStudentInfo.pass1?"已通过":'审核中'}}
   </nz-descriptions-item>
-  <nz-descriptions-item nzTitle="材料审核状态">
+  <nz-descriptions-item nzTitle="材料形式审查">
     {{status[currentStudentInfo.status]}}
   </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="面试是否确认参加">
+    {{currentStudentInfo.confirm1>0?"已确认参加":currentStudentInfo.confirm1<0?'已拒绝参加':'待确认'}} </nz-descriptions-item>
 </nz-descriptions>
 
 <nz-descriptions nzTitle="学生申请表" nzBordered class="mt-4">
@@ -81,8 +89,11 @@
   <nz-descriptions-item nzTitle="身份证号码" nzSpan="3">
     {{currentStudentInfo.SignupTemplate.id}}
   </nz-descriptions-item>
-  <nz-descriptions-item nzTitle="本科院校" nzSpan="2">
+  <nz-descriptions-item nzTitle="本科院校" nzSpan="1">
     {{currentStudentInfo.SignupTemplate.university}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="选择意向导师(非必填项)" nzSpan="1">
+    {{currentStudentInfo.SignupTemplate.tutor}}
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="本科院系" nzSpan="1">
     {{currentStudentInfo.SignupTemplate.department}}
@@ -96,8 +107,11 @@
   <nz-descriptions-item nzTitle="电话">
     {{currentStudentInfo.SignupTemplate.phone}}
   </nz-descriptions-item>
-  <nz-descriptions-item nzTitle="邮箱" nzSpan="2">
+  <nz-descriptions-item nzTitle="邮箱">
     {{currentStudentInfo.SignupTemplate.email}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="QQ">
+    {{currentStudentInfo.SignupTemplate.qq}}
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="紧急电话">
     {{currentStudentInfo.SignupTemplate.emergencyPhone}}
@@ -122,15 +136,36 @@
   <nz-descriptions-item nzTitle="已取得的科研成果" [nzSpan]="3">
     {{currentStudentInfo.SignupTemplate.achievements}}
   </nz-descriptions-item>
-
-  <nz-descriptions-item nzTitle="本科成绩及排名 " [nzSpan]="3">
-    {{currentStudentInfo.SignupTemplate.score}}
+  <nz-descriptions-item nzTitle="拟报考推免生类型(第一志愿)" [nzSpan]="3">
+    {{volunteerStatus(currentStudentInfo.SignupTemplate.volunteer1)}}
   </nz-descriptions-item>
-
-  <nz-descriptions-item nzTitle="外语成绩" [nzSpan]="3">
-    {{currentStudentInfo.SignupTemplate.englishScore}}
+  <nz-descriptions-item nzTitle="拟报考推免生类型(第二志愿)" [nzSpan]="3">
+    {{volunteerStatus(currentStudentInfo.SignupTemplate.volunteer2)}}
   </nz-descriptions-item>
-
+  <nz-descriptions-item nzTitle="绩点时间点 ">
+    {{currentStudentInfo.SignupTemplate.scoreDate}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="申请人绩点 ">
+    {{currentStudentInfo.SignupTemplate.getScore}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="绩点分制 ">
+    {{currentStudentInfo.SignupTemplate.maxScore}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="年级排名 ">
+    {{currentStudentInfo.SignupTemplate.getRank}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="年级总人数 ">
+    {{currentStudentInfo.SignupTemplate.maxRank}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="外语cet4成绩">
+    {{currentStudentInfo.SignupTemplate.cet4Score}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="外语cet6成绩">
+    {{currentStudentInfo.SignupTemplate.cet6Score}}
+  </nz-descriptions-item>
+  <nz-descriptions-item nzTitle="其他英语成绩" [nzSpan]="2">
+    {{currentStudentInfo.SignupTemplate.otherEnglishScore}}
+  </nz-descriptions-item>
   <nz-descriptions-item nzTitle="申请人声明" [nzSpan]="3">
     本人保证以上信息的真实性和准确性，若所提交信息不真实或不准确，本人同意中山大学计算机学院拒绝本人申请或取消本人资格。
   </nz-descriptions-item>
@@ -146,7 +181,7 @@
   </nz-descriptions-item>
 </nz-descriptions>
 
-<h4 nz-typography class="mt-4">学生上传辅助资料</h4>
+<h4 nz-typography class="mt-4">学生上传证明材料</h4>
 <nz-table #currentFileInTable [nzPageSize]="10" [nzData]='fileList!'>
   <thead>
     <tr>
@@ -160,14 +195,33 @@
       <td>{{ data.filename }} </td>
       <td>{{ formatDateTime(data.date) }}</td>
       <td>
-        <a nz-button nzType="link" (click)="getUploadFile(data)">下载此材料</a>
+        <a nz-button nzType="link" (click)="downloadUpload(data,0)">预览</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a nz-button nzType="link" (click)="downloadUpload(data,1)">下载</a>
       </td>
     </tr>
   </tbody>
 </nz-table>
 <!-- </nz-descriptions> -->
 
-<button (click)="statusPass()" nz-button nzType="primary" nz-tooltip
-  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终初试成绩" class="mt-2 h-8 w-48">
+<button class="mt-2 h-10 w-60" (click)="statusPass()" nz-button nzType="primary" nz-tooltip
+  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终材料审核成绩" class="mt-2 h-8 w-48" *ngIf="!currentScore1Flag">
   通过材料审核
 </button>
+<br>
+<button class="mt-3 h-10 w-60 mr-6" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要通过此学生材料资格审查吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="setPass1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
+  nzCancelText="取消"><span>通过此学生材料资格审查</span></button>
+
+<button class="mt-3 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要取消此学生材料资格审查吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="unsetPass1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
+  nzCancelText="取消"><span>取消此学生材料资格审查</span></button>
+<br>
+
+<button class="mt-3 h-10 w-60 mr-6" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要修改此学生面试确认申请为同意吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="setConfirm1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
+  nzCancelText="取消"><span>修改此学生面试确认申请为同意</span></button>
+
+<button class="mt-3 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要修改此学生面试确认申请为拒绝吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="unsetConfirm1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
+  nzCancelText="取消"><span>修改此学生面试确认申请为拒绝</span></button>

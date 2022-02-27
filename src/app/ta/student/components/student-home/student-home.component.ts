@@ -10,6 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class StudentHomeComponent implements OnInit {
   currentTimeFrom!: string;
   currentTimeTo!: string;
+  currentsignEnd!: string;
 
   currentStatus: number = 0; //0-未开始,1-进行中,2-已结束
   status = ['未开始', '进行中', '已结束'];
@@ -37,6 +38,9 @@ export class StudentHomeComponent implements OnInit {
     });
     this.timeSrvc.currentTimeTo$.subscribe((res) => {
       this.currentTimeTo = this.timeSrvc.formatDateTime(new Date(res!));
+    });
+    this.timeSrvc.currentsignEnd$.subscribe((res) => {
+      this.currentsignEnd = this.timeSrvc.formatDateTime(new Date(res!));
     });
     this.timeSrvc.currentStatus$.subscribe((res) => {
       this.currentStatus = res;

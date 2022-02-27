@@ -13,6 +13,9 @@ export class TimeService {
   private currentTimeTo = new BehaviorSubject<number | null>(null);
   currentTimeTo$ = this.currentTimeTo.asObservable();
 
+  private currentsignEnd = new BehaviorSubject<number | null>(null);
+  currentsignEnd$ = this.currentsignEnd.asObservable();
+
   private currentStatus = new BehaviorSubject<number>(0); //0-未开始,1-进行中,2-已结束
   currentStatus$ = this.currentStatus.asObservable();
 
@@ -37,6 +40,7 @@ export class TimeService {
         next: (response) => {
           this.currentTimeFrom.next(Number(response.body.start));
           this.currentTimeTo.next(Number(response.body.end));
+          this.currentsignEnd.next(Number(response.body.signEnd));
 
           const now = Date.now();
           if (now < Number(response.body.start)) this.currentStatus.next(0);
@@ -50,17 +54,19 @@ export class TimeService {
     );
   }
 
-  setTime(from: number, to: number) {
+  setTime(from: number, to: number, sign: number) {
     return this.api
       .post<any>('/timerange', {
         start: from,
         end: to,
+        signEnd: sign,
       })
       .pipe(
         tap({
           next: (response) => {
             this.currentTimeFrom.next(Number(response.body.start));
             this.currentTimeTo.next(Number(response.body.end));
+            this.currentsignEnd.next(Number(response.body.signEnd));
             const now = Date.now();
             if (now < Number(response.body.start)) this.currentStatus.next(0);
             else if (now > Number(response.body.end))

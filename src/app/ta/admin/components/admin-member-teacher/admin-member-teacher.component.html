@@ -1,15 +1,18 @@
 <div class="ml-8">
   <!-- 展示当前用户表格 -->
   <h4 nz-typography class="mt-2">当前教师</h4>
+  <button nz-button [nzType]="'primary'" (click)="showModalImport()" class="m-2"><span>导入教师</span></button>
+
   <nz-table #currentUserInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayUserList!'>
     <thead>
       <tr>
-        <th nzCustomFilter>工号
+        <!-- <th nzCustomFilter>id
           <nz-filter-trigger [(nzVisible)]="visibleSearchSid" [nzActive]="searchSidValue.length > 0"
             [nzDropdownMenu]="searchSidMenu">
             <i nz-icon nzType="filter" nzTheme="twotone"></i>
           </nz-filter-trigger>
-        </th>
+        </th> -->
+        <th>学工号</th>
         <th nzCustomFilter>姓名
           <nz-filter-trigger [(nzVisible)]="visibleSearchName" [nzActive]="searchNameValue.length > 0"
             [nzDropdownMenu]="searchNameMenu">
@@ -22,7 +25,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of currentUserInTable.data">
-        <td>{{ data.uid }}</td>
+        <!-- <td>{{ data.uid }}</td> -->
+        <td>{{ data.sid?data.sid:"无" }}</td>
         <td>{{ data.name }}</td>
         <td>{{ data.groupGid }}</td>
         <td>
@@ -78,4 +82,23 @@
       <button nz-button nzType="default" (click)="handleOkShowInfo()">确认</button>
     </div>
   </nz-modal>
+
+  <!-- 导入教师的对话框 -->
+  <nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleImport" nzTitle="导入教师"
+    (nzOnCancel)="handleCancelImport()" (nzOnOk)="handleOkImport()" [nzOkLoading]="isOkLoadingImport">
+    <ng-container *nzModalContent>
+      <nz-descriptions nzTitle="" nzBordered>
+        <nz-descriptions-item nzTitle="工号">
+          <nz-input-number [(ngModel)]="importSid" [nzStep]="1"></nz-input-number>
+        </nz-descriptions-item>
+        <nz-descriptions-item nzTitle="手机号码"><input nz-input placeholder="选填" [(ngModel)]="importPhone" />
+        </nz-descriptions-item>
+      </nz-descriptions>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancelImport()">取消</button>
+      <button nz-button nzType="primary" (click)="handleOkImport()" [nzLoading]="isOkLoadingImport">确认导入</button>
+    </div>
+  </nz-modal>
+
 </div>

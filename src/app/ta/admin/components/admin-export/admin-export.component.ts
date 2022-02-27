@@ -14,26 +14,50 @@ export class AdminExportComponent implements OnInit {
   exportCvs() {
     this.isLoading = true;
     let title = [
+      '学工号',
       '姓名',
-      '账号',
-      '组别',
-      '初试分数',
-      '是否已经通过初试',
-      '夏令营成绩',
+      '所属组别',
+      '号码',
+      '原始分',
+      '最终分',
+      '所有材料审核分数',
+      '材料形式审查',
+      '材料资格审查',
+      '面试确认申请',
     ];
-    let titleForKey = ['name', 'uid', 'groupGid', 'score1', 'pass1', 'score2'];
+    let titleForKey = [
+      'sid',
+      'name',
+      'groupGid',
+      'randomId',
+      'score1',
+      'finalscore1',
+      'allscore1',
+      'status',
+      'pass1',
+      'confirm1',
+    ];
     this.memberSrvc.getStudentList().subscribe((v) => {
       this.isLoading = false;
       let data = v.body
         // .filter((n: Student) => n.pass1 == true)
         .map((v: Student) => {
           return {
+            sid: v.sid ? String(v.sid) : '无',
             name: v.name,
-            uid: v.uid,
-            groupGid: v.groupGid,
-            score1: v.score1 == -1 ? '无成绩' : v.score1,
-            pass1: v.pass1 ? '是' : '否',
-            score2: v.score2 == -1 ? '无成绩' : v.score2,
+            groupGid: String(v.groupGid),
+            randomId: String(v.randomId),
+            score1: v.score1 == -1 ? '未打分' : String(v.score1),
+            finalscore1: v.finalscore1 == -1 ? '未打分' : String(v.finalscore1),
+            allscore1: String(v.allscore1),
+            status: v.status ? '已审核' : '未审核',
+            pass1: v.pass1 ? '已通过' : '审核中',
+            confirm1:
+              v.confirm1 == 1
+                ? '已确认参加'
+                : v.confirm1 == -1
+                ? '已拒绝参加'
+                : '待确认',
           };
         });
       let str = [];
@@ -41,8 +65,8 @@ export class AdminExportComponent implements OnInit {
       for (let i = 0; i < data.length; i++) {
         let temp: any[] = [];
         for (let j = 0; j < titleForKey.length; j++) {
-          if (j == 0 || j == 2) temp.push('\t' + data[i][titleForKey[j]]);
-          else temp.push(data[i][titleForKey[j]]);
+          // if (j == 0 || j == 2) temp.push('\t' + data[i][titleForKey[j]]);
+          temp.push(data[i][titleForKey[j]]);
         }
         str.push(temp.join(',') + '\n');
       }

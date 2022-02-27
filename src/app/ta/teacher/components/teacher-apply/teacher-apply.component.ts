@@ -24,9 +24,9 @@ export class TeacherApplyComponent implements OnInit {
 
   status = [
     '等待教务审核',
-    '材料已被审核,请等待结果',
-    '材料已被审核,请等待结果',
-    '本人已通过夏令营成绩审核',
+    '材料已被审核,请留意成绩',
+    '材料已被审核,请留意成绩',
+    '本人已确认夏令营面试成绩',
   ];
 
   constructor(

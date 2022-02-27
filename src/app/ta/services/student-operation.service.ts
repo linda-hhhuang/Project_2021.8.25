@@ -41,8 +41,8 @@ export class StudentOperationService {
     );
   }
 
-  operateStudent(uid: number, status: any) {
-    return this.api.put<any>(`/member/student/${uid}`, status).pipe(
+  operateStudent(uid: number, studentInfo: Partial<Student>) {
+    return this.api.put<any>(`/member/student/${uid}`, studentInfo).pipe(
       tap({
         next: (response) => {
           this.getStudentInfo(uid).subscribe();
@@ -53,6 +53,42 @@ export class StudentOperationService {
         },
       })
     );
+  }
+
+  operateStudentScore1(uid: number, score1: number) {
+    return this.api
+      .put<any>(`/member/student/${uid}/score1`, {
+        score: score1,
+      })
+      .pipe(
+        tap({
+          next: (response) => {
+            this.getStudentInfo(uid).subscribe();
+            // this.memberSrvc.getStudentList().subscribe();
+          },
+          error: (err) => {
+            this.handleError(err.error.msg);
+          },
+        })
+      );
+  }
+
+  operateStudentScore2(uid: number, score2: number) {
+    return this.api
+      .put<any>(`/member/student/${uid}/score2`, {
+        score: score2,
+      })
+      .pipe(
+        tap({
+          next: (response) => {
+            this.getStudentInfo(uid).subscribe();
+            // this.memberSrvc.getStudentList().subscribe();
+          },
+          error: (err) => {
+            this.handleError(err.error.msg);
+          },
+        })
+      );
   }
 
   getUploadList(uid: number) {
@@ -68,8 +104,8 @@ export class StudentOperationService {
     );
   }
 
-  getUploadFile(uid: number, fid: string) {
-    window.location.href = `/api/filer/${uid}/files/${fid}`;
+  getUploadFile(sid: number, fid: string, attach: string) {
+    window.open(`/api/filer/${sid}/files/${fid}` + attach);
   }
 
   private handleError(error: string) {

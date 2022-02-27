@@ -88,7 +88,7 @@ export class AdminMemberStudentComponent implements OnInit {
         pass1: true,
       })
       .subscribe((_) => {
-        this.message.success('成功通过学生初试申请!');
+        this.message.success('成功通过学生材料审核申请!');
         this.ngOnInit();
       });
   }
@@ -102,7 +102,7 @@ export class AdminMemberStudentComponent implements OnInit {
     this.isOkLoadingPass = true;
     this.memberSrvc.autoPassByScore(this.passScore).subscribe((_) => {
       this.message.success(
-        `成功通过所有初试分数大于${this.passScore}的学生的初试申请!`
+        `成功通过所有材料审核分数大于${this.passScore}的学生的材料审核申请!`
       );
       this.isOkLoadingPass = false;
       this.isVisiblePass = false;
@@ -121,7 +121,7 @@ export class AdminMemberStudentComponent implements OnInit {
   handleOkDelete(): void {
     this.isOkLoadingDelete = true;
     this.memberSrvc.clearAllPass().subscribe((_) => {
-      this.message.success('成功撤销所有学生的初试申请!');
+      this.message.success('成功撤销所有学生的材料审核申请!');
       this.isOkLoadingDelete = false;
       this.isVisibleDelete = false;
       this.ngOnInit();
@@ -133,4 +133,18 @@ export class AdminMemberStudentComponent implements OnInit {
   }
 
   Cancel() {}
+
+  //排序
+  SortFn1(a: any, b: any) {
+    return a.finalscore1 - b.finalscore1;
+  }
+  SortDirections1 = ['ascend', 'descend', null];
+  FilterMultiple1 = true;
+
+  //排序
+  SortFn2(a: any, b: any) {
+    return a.score2 - b.score2;
+  }
+  SortDirections2 = ['ascend', 'descend', null];
+  FilterMultiple2 = true;
 }

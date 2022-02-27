@@ -5,7 +5,7 @@
       <span class="text-3xl font-bold" nz-typography
         [nzType]='AntdStatus(currentStatus)'>{{status[currentStatus]}}</span>
     </div>
-    <div class="mt-8">
+    <div>
       <span class="text-xl">开始时间:</span>&nbsp;&nbsp;
       <span class="text-2xl font-bold">{{currentTimeFrom}}</span>
     </div>
@@ -14,13 +14,19 @@
       <span class="text-xl">结束时间:</span>&nbsp;&nbsp;
       <span class="text-2xl font-bold">{{currentTimeTo}}</span>
     </div>
+    <br>
+    <div>
+      <span class="text-xl">申请材料截止时间:</span>&nbsp;&nbsp;
+      <span class="text-2xl font-bold">{{currentsignEnd}}</span>
+    </div>
   </div>
+</div>
 
-  <div class="h-64 w-120 float-left ml-36 border-antd border-solid border-2 p-6 rounded-lg text-center">
-    <h3 nz-typography>教师端功能导航</h3>
-    <!-- <button nz-button class="mb-4 mt-2" [nzSize]='"large"' nzType="default" routerLink="../personal"
+<div class="h-64 w-120 float-left ml-36 border-antd border-solid border-2 p-6 rounded-lg text-center">
+  <h3 nz-typography>教师端功能导航</h3>
+  <!-- <button nz-button class="mb-4 mt-2" [nzSize]='"large"' nzType="default" routerLink="../personal"
       routerLinkActive="active">个人信息</button>
     <br> -->
-    <button nz-button class="mt-8" [nzSize]='"large"' nzType="default" routerLink="../member"
-      routerLinkActive="active">查看/操作组员</button>
-  </div>
+  <button nz-button class="mt-8" [nzSize]='"large"' nzType="default" routerLink="../member"
+    routerLinkActive="active">查看/操作组员</button>
+</div>
