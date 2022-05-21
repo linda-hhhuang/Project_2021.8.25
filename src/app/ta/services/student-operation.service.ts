@@ -105,7 +105,7 @@ export class StudentOperationService {
   }
 
   getUploadFile(sid: number, fid: string, attach: string) {
-    window.open(`/api/filer/${sid}/files/${fid}` + attach);
+    window.open(`/fushi/api/filer/${sid}/files/${fid}` + attach);
   }
 
   private handleError(error: string) {

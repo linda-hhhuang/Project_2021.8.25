@@ -32,7 +32,7 @@ export class TARedirectComponent implements OnInit {
           this.router.navigate(['admin'], { relativeTo: this.route });
         } else if (role == 2) {
           this.router.navigate(['teacher'], { relativeTo: this.route });
-        } else if (role == 3) {
+        } else if (role == 3 || role == 4) {
           this.router.navigate(['student'], { relativeTo: this.route });
         }
       });

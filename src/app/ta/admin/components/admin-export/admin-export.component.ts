@@ -9,7 +9,10 @@ import { Student } from '@ta/model/member';
 export class AdminExportComponent implements OnInit {
   constructor(private memberSrvc: MemberService) {}
   isLoading = false;
-  ngOnInit(): void {}
+  domain = window.location.hostname;
+  ngOnInit(): void {
+    this.domain = window.location.hostname;
+  }
 
   exportCvs() {
     this.isLoading = true;
@@ -20,9 +23,9 @@ export class AdminExportComponent implements OnInit {
       '号码',
       '原始分',
       '最终分',
-      '所有材料审核分数',
+      '材料审核打分',
       '材料形式审查',
-      '材料资格审查',
+      '入营资格审查',
       '面试确认申请',
     ];
     let titleForKey = [

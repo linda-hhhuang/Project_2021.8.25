@@ -1,4 +1,4 @@
-<nz-tabset nzLinkRouter nzLinkExact="false" class="ml-4">
+<nz-tabset [nzSize]="'large'" nzLinkRouter nzLinkExact="false" class="ml-4">
   <nz-tab>
     <a *nzTabLink nz-tab-link [routerLink]="['home']">主页</a>
   </nz-tab>
@@ -9,4 +9,6 @@
     <a *nzTabLink nz-tab-link [routerLink]="['score']">查看分数</a>
   </nz-tab>
 </nz-tabset>
-<router-outlet></router-outlet>
+<div class="w-full h-3/4">
+  <router-outlet></router-outlet>
+</div>

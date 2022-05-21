@@ -7,7 +7,7 @@ export interface Student {
   name: string; // 姓名
   score1: number; // 原始分
   finalscore1: number; // 原始分
-  allscore1: number[]; // 所有材料审核分数
+  allscore1: number[]; // 材料审核打分
   pass1: boolean; // 第一轮通过情况
   confirm1: number; // 面试确认情况
   score2: number; // 夏令营成绩

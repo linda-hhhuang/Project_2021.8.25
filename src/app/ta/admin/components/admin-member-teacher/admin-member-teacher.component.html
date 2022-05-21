@@ -1,6 +1,6 @@
 <div class="ml-8">
   <!-- 展示当前用户表格 -->
-  <h4 nz-typography class="mt-2">当前教师</h4>
+  <h4 nz-typography class="mt-2">当前教师 (共{{currentDisplayUserList?currentDisplayUserList.length:'...'}}人)</h4>
   <button nz-button [nzType]="'primary'" (click)="showModalImport()" class="m-2"><span>导入教师</span></button>
 
   <nz-table #currentUserInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayUserList!'>
@@ -44,7 +44,7 @@
   <nz-dropdown-menu #searchNameMenu="nzDropdownMenu">
     <div class="ant-table-filter-dropdown">
       <div class="p-2">
-        <input class="w-44 mb-2 block" nz-input placeholder="按名字搜索" [(ngModel)]="searchNameValue" />
+        <input class="block mb-2 w-44" nz-input placeholder="按名字搜索" [(ngModel)]="searchNameValue" />
         <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchName()">
           搜索
         </button>
@@ -57,7 +57,7 @@
   <nz-dropdown-menu #searchSidMenu="nzDropdownMenu">
     <div class="ant-table-filter-dropdown">
       <div class="p-2">
-        <input class="w-44 mb-2 block" nz-input placeholder="按账户搜索" [(ngModel)]="searchSidValue" />
+        <input class="block mb-2 w-44" nz-input placeholder="按账户搜索" [(ngModel)]="searchSidValue" />
         <button class="w-20 mr-4" nz-button nzSize="small" nzType="primary" (click)="searchSid()">
           搜索
         </button>

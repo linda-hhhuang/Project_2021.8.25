@@ -22,7 +22,7 @@ export class StudentGuard implements CanActivate {
     return this.userServ.memberRole$.pipe(
       skipWhile((v) => v == -1),
       map((role) => {
-        if (role == 3) {
+        if (role == 3 || role == 4) {
           return true;
         } else {
           this.message.error('您无权进入此版块');

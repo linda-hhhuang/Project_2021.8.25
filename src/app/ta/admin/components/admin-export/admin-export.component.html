@@ -1,11 +1,11 @@
-<button class="mt-4 ml-8 h-10" nz-button nzType="primary" (click)="exportCvs()"
+<button class="h-10 mt-4 ml-8" nz-button nzType="primary" (click)="exportCvs()"
   [nzLoading]="isLoading">导出当前所有报名结果</button>
 
-<button nz-button [nzType]="'primary'" class="mt-4 ml-8 h-10">
-  <a href='http://172.18.198.146:7003/api/member/export-student-info' download>导出当前所有学生的报名信息</a>
+<button nz-button [nzType]="'primary'" class="h-10 mt-4 ml-8">
+  <a [href]="'https://' +domain +'/fushi/api/member/export-student-info'" download>导出当前所有学生的报名信息</a>
 </button>
 
 
-<button nz-button [nzType]="'primary'" class="mt-4 ml-8 h-10">
-  <a href='http://172.18.198.146:7003/api/filer/packfile' download>导出当前所有学生的上传材料</a>
+<button nz-button [nzType]="'primary'" class="h-10 mt-4 ml-8">
+  <a [href]="'https://' +domain +'/fushi/api/filer/packfile'" download>导出当前所有学生的上传材料</a>
 </button>

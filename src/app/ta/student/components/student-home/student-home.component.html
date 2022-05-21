@@ -2,8 +2,7 @@
   <div class="h-64 w-120 float-left border-antd border-solid border-2 p-6 rounded-lg">
     <div class="mt-3 mb-4">
       <span class="text-2xl">当前夏令营活动 : </span>
-      <span class="text-3xl font-bold" nz-typography
-        [nzType]='AntdStatus(currentStatus)'>{{status[currentStatus]}}</span>
+      <span class="text-3xl font-bold" nz-typography>{{status[currentStatus]}}</span>
     </div>
     <div>
       <span class="text-xl">开始时间:</span>&nbsp;&nbsp;
@@ -24,10 +23,10 @@
 
 <div class="h-64 w-120 float-left ml-36 border-antd border-solid border-2 p-8 rounded-lg text-center">
   <h3 nz-typography>学生端功能导航</h3>
-  <button nz-button class="mb-4 mt-4" [nzSize]='"large"' nzType="default" routerLink="../personal"
+  <button nz-button class="text-lg mb-4 mt-4" [nzSize]='"large"' nzType="default" routerLink="../personal"
     routerLinkActive="active">个人信息与夏令营报名</button>
   <br>
-  <button nz-button class="mb-4 " [nzSize]='"large"' nzType="default" routerLink="../score"
+  <button nz-button class="text-lg mb-4 " [nzSize]='"large"' nzType="default" routerLink="../score"
     routerLinkActive="active">查看分数</button>
 
 </div>

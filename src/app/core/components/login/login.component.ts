@@ -17,14 +17,31 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const domain = window.location.hostname;
+    window.location.replace(
+      // 'http://172.18.198.146/sso/#/login?frontend=http://localhost:4200&backend=http://172.18.198.146/fushi/api/user/cas'
+      'https://' +
+        domain +
+        '/sso/#/login?frontend=https://' +
+        domain +
+        '/fushi/&backend=https://' +
+        domain +
+        '/fushi/api/user/cas'
+    );
     this.isLogging = false;
   }
 
   casLogin() {
+    const domain = window.location.hostname;
     window.location.replace(
-      'http://172.18.198.146:6001//#/login?frontend=http://localhost:4200&backend=http://localhost:4200/api/user/cas'
-
-      // 'http://172.18.198.146:6001/#/login?frontend=http://172.18.198.146:7003&backend=http://172.18.198.146:7003/api/user/cas'
+      'http://172.18.198.146/sso/#/login?frontend=http://localhost:4200&backend=http://172.18.198.146/fushi/api/user/cas'
+      // 'https://' +
+      //   domain +
+      //   '/sso/#/login?frontend=https://' +
+      //   domain +
+      //   '/fushi/&backend=https://' +
+      //   domain +
+      //   '/fushi/api/user/cas'
     );
   }
 }

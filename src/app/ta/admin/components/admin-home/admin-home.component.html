@@ -20,7 +20,8 @@
       <span class="text-2xl font-bold">{{currentsignEnd}}</span>
     </div>
 
-    <button class="mt-6  mr-10" nz-button [nzType]="'primary'" (click)="showModalSetTime()"><span>修改双选时间</span></button>
+    <button class="mt-6  mr-10" nz-button [nzType]="'primary'" [nzSize]="'large'"
+      (click)="showModalSetTime()"><span>修改双选时间</span></button>
   </div>
 
   <!-- 设置时间的对话框 -->
@@ -43,16 +44,16 @@
 
   <div class="h-80 w-120 float-left ml-36 border-antd border-solid border-2 p-16 rounded-lg text-center">
     <h3 nz-typography>教务端功能导航</h3>
-    <button nz-button class="w-32 mb-5 mt-6" [nzSize]='"large"' nzType="default" routerLink="../student"
+    <button nz-button class="w-32 mb-5 mt-6 text-lg" [nzSize]='"large"' nzType="default" routerLink="../student"
       routerLinkActive="active">学生</button>
 
-    <button nz-button class="w-32 mb-5 mt-6 ml-6" [nzSize]='"large"' nzType="default" routerLink="../teacher"
+    <button nz-button class="w-32 mb-5 mt-6 ml-6 text-lg" [nzSize]='"large"' nzType="default" routerLink="../teacher"
       routerLinkActive="active">教师</button>
     <br>
-    <button nz-button class="w-32 mb-5" [nzSize]='"large"' nzType="default" routerLink="../group"
+    <button nz-button class="w-32 mb-5 text-lg" [nzSize]='"large"' nzType="default" routerLink="../group"
       routerLinkActive="active">查看/处理组</button>
 
-    <button nz-button class="w-32 mb-5 ml-6" [nzSize]='"large"' nzType="default" routerLink="../export"
+    <button nz-button class="w-32 mb-5 ml-6 text-lg" [nzSize]='"large"' nzType="default" routerLink="../export"
       routerLinkActive="active">导出</button>
   </div>
 </div>

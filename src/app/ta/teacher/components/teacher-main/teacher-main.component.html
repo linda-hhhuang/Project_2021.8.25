@@ -1,12 +1,14 @@
-<nz-tabset nzLinkRouter nzLinkExact="false" class="ml-4">
-  <nz-tab>
-    <a *nzTabLink nz-tab-link [routerLink]="['home']">主页</a>
-  </nz-tab>
-  <!-- <nz-tab>
+<nz-tabset [nzSize]="'large'" nzLinkRouter nzLinkExact="false" class="ml-4">
+    <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['home']">主页</a>
+    </nz-tab>
+    <!-- <nz-tab>
     <a *nzTabLink nz-tab-link [routerLink]="['personal']">个人信息</a>
   </nz-tab> -->
-  <nz-tab>
-    <a *nzTabLink nz-tab-link [routerLink]="['member']">查看/操作组员</a>
-  </nz-tab>
+    <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['member']">查看/操作组员</a>
+    </nz-tab>
 </nz-tabset>
-<router-outlet></router-outlet>
+<div class="w-full h-3/4">
+  <router-outlet></router-outlet>
+</div>

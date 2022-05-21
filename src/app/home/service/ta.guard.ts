@@ -26,7 +26,7 @@ export class TAGuard implements CanActivate {
         if (role == 1 || role == 0) {
           // delay(0);
           return true;
-        } else if (role == 2 || role == 3) {
+        } else if (role == 2 || role == 3 || role == 4) {
           if (this.userServ.hasmember) {
             return true;
           } else {

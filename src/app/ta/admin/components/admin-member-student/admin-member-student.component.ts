@@ -102,7 +102,7 @@ export class AdminMemberStudentComponent implements OnInit {
     this.isOkLoadingPass = true;
     this.memberSrvc.autoPassByScore(this.passScore).subscribe((_) => {
       this.message.success(
-        `成功通过所有材料审核分数大于${this.passScore}的学生的材料审核申请!`
+        `成功通过材料审核打分大于${this.passScore}的学生的材料审核申请!`
       );
       this.isOkLoadingPass = false;
       this.isVisiblePass = false;
@@ -147,4 +147,31 @@ export class AdminMemberStudentComponent implements OnInit {
   }
   SortDirections2 = ['ascend', 'descend', null];
   FilterMultiple2 = true;
+
+  SortFn3(a: any, b: any) {
+    return a.hasPdf - b.hasPdf;
+  }
+  SortDirections3 = ['ascend', 'descend', null];
+  FilterMultiple3 = true;
+
+  //排序
+  SortFn5(a: any, b: any) {
+    return a.hasCommitment - b.hasCommitment;
+  }
+  SortDirections5 = ['ascend', 'descend', null];
+  FilterMultiple5 = true;
+
+  //排序
+  SortFn7(a: any, b: any) {
+    return a.pass1 - b.pass1;
+  }
+  SortDirections7 = ['ascend', 'descend', null];
+  FilterMultiple7 = true;
+
+  //排序
+  SortFn8(a: any, b: any) {
+    return a.confirm1 - b.confirm1;
+  }
+  SortDirections8 = ['ascend', 'descend', null];
+  FilterMultiple8 = true;
 }

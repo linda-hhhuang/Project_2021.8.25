@@ -34,8 +34,8 @@ export class StudentPersonalComponent implements OnInit {
   currentConfirm: number = 0;
   status = [
     '等待教务审核',
-    '材料已被审核,请留意成绩',
-    '材料已被审核,请留意成绩',
+    '材料已被接收，即将审核',
+    '材料已被接收，即将审核',
     '本人已确认夏令营面试成绩',
   ];
   AntdStatus = function (v: number) {
@@ -80,8 +80,8 @@ export class StudentPersonalComponent implements OnInit {
   handleOkUpdateInfo(): void {
     this.isOkLoadingUpdateInfo = true;
 
-    if (this.currentStudentInfo.SignupTemplate.description.length > 300) {
-      this.message.error('申请人个人陈述字数不能超过300个字!');
+    if (this.currentStudentInfo.SignupTemplate.description.length > 600) {
+      this.message.error('申请人个人陈述字数不能超过600个字!');
       this.isOkLoadingUpdateInfo = false;
       return;
     }
@@ -164,9 +164,9 @@ export class StudentPersonalComponent implements OnInit {
       reader.onload = (e: any) => {
         const bstr = reader.result!;
 
-        const isLt2M = file.size / 1024 < 1024;
+        const isLt2M = file.size / 1024 < 512;
         if (!isLt2M) {
-          this.message.error('证件图片大小需小于1MB!');
+          this.message.error('证件图片大小需小于512KB!');
         } else {
           this.currentStudentInfo.SignupTemplate.photo = String(bstr);
         }
@@ -200,10 +200,14 @@ export class StudentPersonalComponent implements OnInit {
     });
   }
   deleteUploadCancel() {}
-  downloadUpload(data: FileList) {
-    this.requestrSrvc.studentdownloadUpload(data.fid);
-  }
 
+  downloadUpload(data: FileList, flag: number) {
+    if (flag === 0) {
+      this.requestrSrvc.studentdownloadUpload(data.fid, '?preview=true');
+    } else if (flag === 1) {
+      this.requestrSrvc.studentdownloadUpload(data.fid, '');
+    }
+  }
   confirmAttend(n: number) {
     this.requestrSrvc.confirmAttend(n).subscribe((_) => {
       this.ngOnInit();

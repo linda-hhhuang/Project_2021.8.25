@@ -138,8 +138,8 @@ export class RequestService {
     );
   }
 
-  studentdownloadUpload(fid: string) {
-    window.location.href = `/api/filer/me/files/${fid}`;
+  studentdownloadUpload(fid: string, attach: string) {
+    window.open(`/fushi/api/filer/me/files/${fid}` + attach);
   }
 
   ACKScore2() {

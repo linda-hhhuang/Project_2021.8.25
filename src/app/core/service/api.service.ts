@@ -39,7 +39,8 @@ export interface HttpOptionsWithFile {
 }
 
 const CONNECTION_TIMEOUT = 8000;
-const PREFIX = '/api';
+const PREFIX = '/fushi/api';
+// const PREFIX = '/api';
 export function api(url: string): string {
   return `${PREFIX}/${url.replace(/^\//, '')}`;
 }

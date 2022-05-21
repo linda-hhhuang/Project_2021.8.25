@@ -16,6 +16,7 @@ export class NavComponent implements OnInit {
     1: '教务',
     2: '教师',
     3: '学生',
+    4: '学生',
   };
   constructor(
     private message: NzMessageService,

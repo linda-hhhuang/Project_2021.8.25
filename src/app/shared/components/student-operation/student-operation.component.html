@@ -1,7 +1,7 @@
-<button class="mt-0 ml-0 h-8 w-48 mb-8" nz-button [nzType]="'primary'" (click)="showModalScore1()"
+<button class="w-48 h-8 mt-0 mb-8 ml-0" nz-button [nzType]="'primary'" (click)="showModalScore1()"
   *ngIf="currentScore1Flag"><span>提交材料审核分数</span></button>
 
-<!-- <button class="mt-0 ml-8 h-8 w-48 mb-8" nz-button [nzType]="'primary'" (click)="showModalScore2()"
+<!-- <button class="w-48 h-8 mt-0 mb-8 ml-8" nz-button [nzType]="'primary'" (click)="showModalScore2()"
   *ngIf="!currentScore1Flag"><span>提交面试分数</span></button> -->
 
 <!-- 提交材料审核分数的对话框 -->
@@ -49,7 +49,7 @@
   <nz-descriptions-item nzTitle="面试分数">
     {{ currentStudentInfo.score2===-1?"未打分":currentStudentInfo.score2 }}
   </nz-descriptions-item>
-  <nz-descriptions-item nzTitle="材料资格审查">
+  <nz-descriptions-item nzTitle="入营资格审查">
     {{currentStudentInfo.pass1?"已通过":'审核中'}}
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="材料形式审查">
@@ -80,7 +80,7 @@
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="本人证件照" [nzSpan]="3">
     <div *ngIf="currentStudentInfo.SignupTemplate.photo!=''"><img src="{{currentStudentInfo.SignupTemplate.photo}}"
-        class="border-gray-400 border-solid max-h-64 w-auto h-auto">
+        class="w-auto h-auto border-gray-400 border-solid max-h-64">
     </div>
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="籍贯" nzSpan="3">
@@ -125,7 +125,7 @@
 </nz-descriptions>
 <nz-descriptions nzTitle="" nzBordered>
 
-  <nz-descriptions-item nzTitle="申请人个人陈述" [nzSpan]="3">
+  <nz-descriptions-item nzTitle="申请人个人陈述及研究生阶段研究计划" [nzSpan]="3">
     {{currentStudentInfo.SignupTemplate.description}}
   </nz-descriptions-item>
 
@@ -167,12 +167,12 @@
     {{currentStudentInfo.SignupTemplate.otherEnglishScore}}
   </nz-descriptions-item>
   <nz-descriptions-item nzTitle="申请人声明" [nzSpan]="3">
-    本人保证以上信息的真实性和准确性，若所提交信息不真实或不准确，本人同意中山大学计算机学院拒绝本人申请或取消本人资格。
+    本人郑重承诺，在“中山大学计算机学院夏令营活动系统”上填写的信息及上传的材料均真实、合法、有效、准确。在系统内，已经提交的申请信息将无法进行修改，若材料中包括错误、虚假、误导性信息，申请资格将被取消，且本人将承担有关责任。
   </nz-descriptions-item>
 
   <nz-descriptions-item nzTitle="申请人声明签名" [nzSpan]="2">
     <div *ngIf="currentStudentInfo.SignupTemplate.sign!=''"><img src="{{currentStudentInfo.SignupTemplate.sign}}"
-        class="border-gray-400 border-solid max-h-16 w-auto h-auto">
+        class="w-auto h-auto border-gray-400 border-solid max-h-16">
     </div>
   </nz-descriptions-item>
 
@@ -204,24 +204,24 @@
 </nz-table>
 <!-- </nz-descriptions> -->
 
-<button class="mt-2 h-10 w-60" (click)="statusPass()" nz-button nzType="primary" nz-tooltip
-  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终材料审核成绩" class="mt-2 h-8 w-48" *ngIf="!currentScore1Flag">
+<button class="h-10 mt-2 w-60" (click)="statusPass()" nz-button nzType="primary" nz-tooltip
+  nzTooltipTitle="在审核完学生的材料后请点击此按钮通过材料审核，以提醒学生不要再修改已提交材料，等待最终材料审核成绩" class="w-48 h-8 mt-2" *ngIf="!currentScore1Flag">
   通过材料审核
 </button>
 <br>
-<button class="mt-3 h-10 w-60 mr-6" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要通过此学生材料资格审查吗？"
-  nzPopconfirmPlacement="bottom" (nzOnConfirm)="setPass1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
-  nzCancelText="取消"><span>通过此学生材料资格审查</span></button>
+<button class="h-10 mt-3 mr-6 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要通过此学生入营资格审查吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="setPass1()" (nzOnCancel)="Cancel()" nzOkText="确认通过" nzCancelText="取消"
+  *ngIf="!currentScore1Flag"><span>通过此学生入营资格审查</span></button>
 
-<button class="mt-3 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要取消此学生材料资格审查吗？"
-  nzPopconfirmPlacement="bottom" (nzOnConfirm)="unsetPass1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
-  nzCancelText="取消"><span>取消此学生材料资格审查</span></button>
+<button class="h-10 mt-3 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要取消此学生入营资格审查吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="unsetPass1()" (nzOnCancel)="Cancel()" nzOkText="确认通过" nzCancelText="取消"
+  *ngIf="!currentScore1Flag"><span>取消此学生入营资格审查</span></button>
 <br>
 
-<button class="mt-3 h-10 w-60 mr-6" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要修改此学生面试确认申请为同意吗？"
-  nzPopconfirmPlacement="bottom" (nzOnConfirm)="setConfirm1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
-  nzCancelText="取消"><span>修改此学生面试确认申请为同意</span></button>
+<button class="h-10 mt-3 mr-6 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要修改此学生面试确认申请为同意吗？"
+  nzPopconfirmPlacement="bottom" (nzOnConfirm)="setConfirm1()" (nzOnCancel)="Cancel()" nzOkText="确认通过" nzCancelText="取消"
+  *ngIf="!currentScore1Flag"><span>修改此学生面试确认申请为同意</span></button>
 
-<button class="mt-3 h-10 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要修改此学生面试确认申请为拒绝吗？"
+<button class="h-10 mt-3 w-60" nz-button [nzType]="'primary'" nz-popconfirm nzPopconfirmTitle="确定要修改此学生面试确认申请为拒绝吗？"
   nzPopconfirmPlacement="bottom" (nzOnConfirm)="unsetConfirm1()" (nzOnCancel)="Cancel()" nzOkText="确认通过"
-  nzCancelText="取消"><span>修改此学生面试确认申请为拒绝</span></button>
+  nzCancelText="取消" *ngIf="!currentScore1Flag"><span>修改此学生面试确认申请为拒绝</span></button>

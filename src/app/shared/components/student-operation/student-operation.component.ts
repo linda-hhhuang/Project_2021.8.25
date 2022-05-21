@@ -86,8 +86,8 @@ export class StudentOperationComponent implements OnInit {
 
   status = [
     '等待教务审核',
-    '材料已被审核,请留意成绩',
-    '材料已被审核,请留意成绩',
+    '材料已被审核',
+    '材料已被审核',
     '本人已确认夏令营面试成绩',
   ];
 
@@ -135,7 +135,7 @@ export class StudentOperationComponent implements OnInit {
       .operateStudent(this.studentUid, { pass1: true })
       .subscribe((v) => {
         this.ngOnInit();
-        this.message.success('成功通过此学生材料资格审查！');
+        this.message.success('成功通过此学生入营资格审查！');
       });
   }
   unsetPass1() {
@@ -143,7 +143,7 @@ export class StudentOperationComponent implements OnInit {
       .operateStudent(this.studentUid, { pass1: false })
       .subscribe((v) => {
         this.ngOnInit();
-        this.message.success('成功取消此学生材料资格审查！');
+        this.message.success('成功取消此学生入营资格审查！');
       });
   }
   setConfirm1() {
@@ -214,9 +214,11 @@ export class StudentOperationComponent implements OnInit {
 
   volunteerStatus(v: any) {
     if (v === null) return '暂未确定';
-    else if (v === 0) return '直接攻读博士';
-    else if (v === 1) return '学术型硕士';
-    else if (v === 2) return '专业型硕士';
+    else if (v === 1) return '学术型硕士(计算数学方向)';
+    else if (v === 2) return '学术型硕士(计算机科学与技术方向)';
+    else if (v === 3) return '专业性硕士（电子信息）';
+    else if (v === 4) return '直博（计算数学方向）';
+    else if (v === 5) return '直博（计算机科学与技术方向）';
     else return undefined;
   }
 

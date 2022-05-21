@@ -10,11 +10,12 @@ module.exports = {
     extend: {
       colors: {
         antd: {
-          DEFAULT: '#1890ff'
+          DEFAULT: '#337951',
         }
       },
       spacing: {
-        '120': '30rem'
+        '120': '30rem',
+        '180': '60rem',
       }
     },
   },

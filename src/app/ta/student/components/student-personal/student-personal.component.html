@@ -1,47 +1,62 @@
-<div class="mt-3 mb-4 ml-8">
-  <span class="text-2xl">当前材料审核状态 : </span>
-  <span class="text-3xl font-bold" nz-typography [nzType]='AntdStatus(currentStatus)'>{{status[currentStatus]}}</span>
-  <span><i nz-icon nzType="exclamation-circle" nzTheme="twotone" nz-tooltip
-      nzTooltipTitle="请注意当教务已经通过材料审核时,改动文件会导致审核结果重置！" *ngIf="currentStatus==0"></i></span>
-  <button nz-button [nzType]="'primary'" class="ml-16" nz-tooltip nzTooltipTitle="请务必下载夏令营营员诚信承诺书并填入相关信息并上传到材料中供教务审核！"
-    *ngIf="currentPass==1&&this.currentConfirm===1">
-    <a href='/assets/中山大学计算机学院2021年优秀大学生夏令营营员诚信承诺书.docx' download>下载考生诚信承诺书</a>
-  </button>
-</div>
-<div class="mt-3 mb-4 ml-8">
-  <span class="text-2xl">当前材料资格审查通过状态 : </span>
-  <span class="text-3xl font-bold" *ngIf="currentPass!=1"> 等待结果 </span>
-  <span class="text-3xl font-bold" *ngIf="currentPass==1&&(!this.currentConfirm)"> 已通过,请务必在右方按钮中选择是否继续参加面试 </span>
-  <button nz-button [nzType]="'primary'" class="ml-16" (click)="confirmAttend(1)"
-    *ngIf="currentPass==1&&(!this.currentConfirm)">
-    确认参加面试
-  </button>
-  <button nz-button [nzType]="'primary'" class="ml-16" (click)="confirmAttend(-1)"
-    *ngIf="currentPass==1&&(!this.currentConfirm)">
-    拒绝参加面试
-  </button>
-  <span class="text-3xl font-bold" *ngIf="currentPass==1&&this.currentConfirm>0"> 已通过,并已确认参加面试 </span>
-  <span class="text-3xl font-bold" *ngIf="currentPass==1&&this.currentConfirm<-1"> 已通过,并已确认拒绝参加面试 </span>
-</div>
+<div class="relative w-full h-full ">
+  <div
+    class="absolute top-0 bottom-0 left-0 right-0 p-8 m-auto text-center border-2 border-solid rounded-lg h-120 w-180 border-antd ">
+    <div class="mt-10 mb-3 ml-8">
+      <span class="text-3xl">当前材料审核状态 : </span>
+      <span class="text-3xl font-bold" nz-typography *ngIf="currentStatus==0">等待教务审核</span>
+      <span class="text-3xl font-bold" nz-typography
+        *ngIf="(currentStatus==1||currentStatus==2)&&currentPass!=1">材料已被接收，即将审核</span>
+      <span class="text-3xl font-bold" nz-typography *ngIf="currentPass==1">材料已被审核,请留意通知</span>
+      <span><i nz-icon nzType="exclamation-circle" nzTheme="twotone" nz-tooltip
+          nzTooltipTitle="请注意当教务已经通过材料审核时,改动文件会导致审核结果重置！" *ngIf="currentStatus==0"></i></span>
+      <button nz-button [nzSize]="'large'" [nzType]="'primary'" class="ml-16" nz-tooltip
+        nzTooltipTitle="请务必下载夏令营营员诚信承诺书并填入相关信息并上传到材料中供教务审核！" *ngIf="currentPass==1&&this.currentConfirm===1">
+        <a href='/fushi/assets/中山大学2022年硕士研究生考试考生诚信复试承诺书.docx' download>下载考生诚信承诺书</a>
+      </button>
+    </div>
+    <div class="mt-10 mb-3 ml-8">
+      <span class="text-3xl">当前入营资格审查通过状态 : </span>
+      <span class="text-3xl font-bold" *ngIf="currentPass!=1"> 等待结果 </span>
+      <span class="text-3xl font-bold" *ngIf="currentPass==1"> 已通过 </span>
+
+      <span class="text-3xl" *ngIf="currentPass==1&&(!this.currentConfirm)"> <br>请务必在下方按钮中选择是否继续参加面试
+        <br></span>
+      <button nz-button [nzSize]="'large'" [nzType]="'primary'" class="ml-16" (click)="confirmAttend(1)"
+        *ngIf="currentPass==1&&(!this.currentConfirm)">
+        确认参加面试
+      </button>
+      <button nz-button [nzSize]="'large'" [nzType]="'primary'" class="ml-16" (click)="confirmAttend(-1)"
+        *ngIf="currentPass==1&&(!this.currentConfirm)">
+        拒绝参加面试
+      </button>
+      <span class="text-3xl font-bold" *ngIf="currentPass==1&&this.currentConfirm>0"> 已确认参加面试 </span>
+      <span class="text-3xl font-bold" *ngIf="currentPass==1&&this.currentConfirm<-1"> 已确认拒绝参加面试 </span>
+    </div>
+
+    <div class="mt-8 mb-3 ml-8">
+      <button class="h-10 mt-6 ml-8 w-60" nz-button [nzSize]="'large'" [nzType]="'primary'"
+        (click)="showModalUpdateInfo()" *ngIf="currentStatus==0"><span>填写夏令营活动报名表</span></button>
+    </div>
 
 
-<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
-  (click)="showModalUpdateInfo()"><span>填写夏令营活动报名表</span></button>
-<br>
-<button class="mt-6 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
-  (click)="showModalUpload()"><span>上传相关证明文件</span></button>
 
-
-<div class="mt-5 mb-4 ml-8" *ngIf="currentStatus==1">
-  <h2 class="text-2xl"> 你的抽签号码:{{currentStudentInfo.randomId===null?'你还未确认参与面试':currentStudentInfo.randomId}} </h2>
+    <div class="mt-8 mb-3 ml-8" *ngIf="currentStatus==1">
+      <h2 class="text-3xl"> 你的抽签号码:{{currentStudentInfo.randomId===null?'你还未确认参与面试':currentStudentInfo.randomId}}
+      </h2>
+    </div>
+  </div>
 </div>
 
 <!-- 修改个人信息的对话框 -->
-<nz-modal [nzStyle]="{ width: '80%' }" [(nzVisible)]="isVisibleUpdateInfo" nzTitle="填写夏令营活动报名表"
+<nz-modal [nzStyle]="{ width: '80%'}" [(nzVisible)]="isVisibleUpdateInfo" nzTitle="填写夏令营活动报名表"
   (nzOnCancel)="handleCancelUpdateInfo()" (nzOnOk)="handleOkUpdateInfo()" [nzOkLoading]="isOkLoadingUpdateInfo">
   <ng-container *nzModalContent>
     <p class="text-red-700">请务必在规定时间内提交申请材料</p>
-    <nz-descriptions nzTitle="" nzBordered>
+    <div class="mt-8 mb-3">
+      <button class="h-10 mb-3 w-60" nz-button [nzSize]="'large'" [nzType]="'primary'"
+        (click)="showModalUpload()"><span>上传相关证明文件</span></button>
+    </div>
+    <nz-descriptions class="mt-3" nzTitle="个人信息" nzBordered>
       <nz-descriptions-item nzTitle="姓名">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.name" />
       </nz-descriptions-item>
@@ -62,20 +77,20 @@
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="本人证件照" [nzSpan]="3">
         <div *ngIf="currentStudentInfo.SignupTemplate.photo!=''"><img src="{{currentStudentInfo.SignupTemplate.photo}}"
-            class="border-gray-400 border-solid max-h-64 w-auto h-auto">
+            class="w-auto h-auto border-gray-400 border-solid max-h-64">
         </div>
         <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadPhoto"
           *ngIf="currentStudentInfo.SignupTemplate.photo==''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
-            <span>选择要上传的证件照(图片)</span>
+            <span>选择要上传的证件照(图片,图片大小需小于512KB)</span>
           </button>
         </nz-upload>
         <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadPhoto"
           *ngIf="currentStudentInfo.SignupTemplate.photo!=''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
-            <span>修改证件照(上传图片)</span>
+            <span>修改证件照(上传图片,图片大小需小于512KB)</span>
           </button>
         </nz-upload>
       </nz-descriptions-item>
@@ -85,12 +100,17 @@
       <nz-descriptions-item nzTitle="身份证号码" nzSpan="3">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.id" />
       </nz-descriptions-item>
+      <nz-descriptions-item nzTitle="家庭住址" nzSpan="3">
+        <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.address" />
+      </nz-descriptions-item>
+    </nz-descriptions>
+
+    <nz-descriptions class="mt-3" nzTitle="本科院校信息" nzBordered>
+
       <nz-descriptions-item nzTitle="本科院校" nzSpan="1">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.university" />
       </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="选择意向导师(非必填项)" nzSpan="1">
-        <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.tutor" />
-      </nz-descriptions-item>
+
       <nz-descriptions-item nzTitle="本科院系" nzSpan="1">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.department" />
       </nz-descriptions-item>
@@ -112,9 +132,7 @@
       <nz-descriptions-item nzTitle="紧急电话">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.emergencyPhone" />
       </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="家庭住址" nzSpan="3">
-        <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.address" />
-      </nz-descriptions-item>
+
 
       <nz-descriptions-item nzTitle="是否获取免试生资格" nzSpan="3">
         <nz-radio-group [(ngModel)]="currentStudentInfo.SignupTemplate.examFree">
@@ -123,21 +141,7 @@
         </nz-radio-group>
       </nz-descriptions-item>
 
-      <nz-descriptions-item nzTitle="拟报考推免生类型(第一志愿)" nzSpan="3">
-        <nz-radio-group [(ngModel)]="currentStudentInfo.SignupTemplate.volunteer1">
-          <label nz-radio [nzValue]='0'>直接攻读博士</label>
-          <label nz-radio [nzValue]='1'>学术型硕士</label>
-          <label nz-radio [nzValue]='2'>专业型硕士</label>
-        </nz-radio-group>
-      </nz-descriptions-item>
 
-      <nz-descriptions-item nzTitle="拟报考推免生类型(第二志愿)" nzSpan="3">
-        <nz-radio-group [(ngModel)]="currentStudentInfo.SignupTemplate.volunteer2">
-          <label nz-radio [nzValue]='0'>直接攻读博士</label>
-          <label nz-radio [nzValue]='1'>学术型硕士</label>
-          <label nz-radio [nzValue]='2'>专业型硕士</label>
-        </nz-radio-group>
-      </nz-descriptions-item>
 
       <nz-descriptions-item nzTitle="本科绩点时间点 ">
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.scoreDate" />
@@ -164,33 +168,55 @@
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.otherEnglishScore" />
       </nz-descriptions-item>
     </nz-descriptions>
-    <nz-descriptions nzTitle="" nzBordered>
 
-      <nz-descriptions-item nzTitle="申请人个人陈述：（限300字以内） （请介绍你的学术背景、曾参与过的科研工作、科研学术兴趣、下一阶段的学习和研究计划、其它特长以及你认为对于申请有参考价值的内容） "
+
+    <nz-descriptions class="mt-3" nzTitle="报考信息部分" nzBordered>
+      <nz-descriptions-item nzTitle="拟报考推免生类型(第一志愿)" nzSpan="3">
+        <nz-radio-group [(ngModel)]="currentStudentInfo.SignupTemplate.volunteer1">
+          <label nz-radio [nzValue]='1'>学术型硕士(计算数学方向)</label>
+          <label nz-radio [nzValue]='2'>学术型硕士(计算机科学与技术方向)</label>
+          <label nz-radio [nzValue]='3'>专业性硕士（电子信息）</label>
+          <label nz-radio [nzValue]='4'>直博（计算数学方向）</label>
+          <label nz-radio [nzValue]='5'>直博（计算机科学与技术方向）</label>
+        </nz-radio-group>
+      </nz-descriptions-item>
+
+      <nz-descriptions-item nzTitle="拟报考推免生类型(第二志愿)" nzSpan="3">
+        <nz-radio-group [(ngModel)]="currentStudentInfo.SignupTemplate.volunteer2">
+          <label nz-radio [nzValue]='1'>学术型硕士(计算数学方向)</label>
+          <label nz-radio [nzValue]='2'>学术型硕士(计算机科学与技术方向)</label>
+          <label nz-radio [nzValue]='3'>专业性硕士（电子信息）</label>
+          <label nz-radio [nzValue]='4'>直博（计算数学方向）</label>
+          <label nz-radio [nzValue]='5'>直博（计算机科学与技术方向）</label>
+        </nz-radio-group>
+      </nz-descriptions-item>
+
+      <nz-descriptions-item nzTitle="选择意向导师(硕士非必填项，博士必填项)" nzSpan="1">
+        <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.tutor" />
+      </nz-descriptions-item>
+    </nz-descriptions>
+
+    <nz-descriptions class="mt-3" nzTitle="个人申请" nzBordered>
+      <nz-descriptions-item
+        nzTitle="申请人个人陈述及研究生阶段研究计划：（限600字以内） （请介绍你的学术背景、曾参与过的科研工作、科研学术兴趣、下一阶段的学习和研究计划、其它特长以及你认为对于申请有参考价值的内容） "
         [nzSpan]="3">
-        <nz-textarea-count [nzMaxCharacterCount]="300">
+        <nz-textarea-count [nzMaxCharacterCount]="600">
           <textarea rows="8" nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.description"></textarea>
         </nz-textarea-count>
       </nz-descriptions-item>
 
-      <nz-descriptions-item nzTitle="奖励与荣誉：（需附获奖证明材料）
-（按：时间（年），获得奖励与荣誉。）
- " [nzSpan]="3">
+      <nz-descriptions-item nzTitle="奖励与荣誉：（需附获奖证明材料）（按：时间（年），获得奖励与荣誉。）" [nzSpan]="3">
 
         <textarea rows="8" nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.reward"></textarea>
 
       </nz-descriptions-item>
 
-      <nz-descriptions-item nzTitle="已取得的科研成果：（300字以内）（需附论文、专利等相关证明材料）
-（按：时间（年），所获科研学术成果或发表论文（出版物）名称及发表刊物，作者排序。）
-" [nzSpan]="3">
+      <nz-descriptions-item nzTitle="已取得的科研成果：（300字以内）（需附论文、专利等相关证明材料）（按：时间（年），所获科研学术成果或发表论文（出版物）名称及发表刊物，作者排序。）"
+        [nzSpan]="3">
         <nz-textarea-count [nzMaxCharacterCount]="300">
           <textarea rows="8" nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.achievements"></textarea>
         </nz-textarea-count>
       </nz-descriptions-item>
-
-
-
 
       <!-- <nz-descriptions-item nzTitle="本科成绩及排名：（已经在报名邮件里提交了盖院系教务部门公章的成绩单及排名证明）
      " [nzSpan]="3">
@@ -204,29 +230,30 @@
         </nz-textarea-count>
       </nz-descriptions-item> -->
 
+    </nz-descriptions>
 
-
+    <nz-descriptions class="mt-3" nzTitle="申请人承诺" nzBordered>
       <nz-descriptions-item nzTitle="申请人声明" [nzSpan]="3">
-        本人保证以上信息的真实性和准确性，若所提交信息不真实或不准确，本人同意中山大学计算机学院拒绝本人申请或取消本人资格。
+        本人郑重承诺，在“中山大学计算机学院夏令营活动系统”上填写的信息及上传的材料均真实、合法、有效、准确。在系统内，已经提交的申请信息将无法进行修改，若材料中包括错误、虚假、误导性信息，申请资格将被取消，且本人将承担有关责任。
       </nz-descriptions-item>
 
 
       <nz-descriptions-item nzTitle="申请人声明签名" [nzSpan]="2">
         <div *ngIf="currentStudentInfo.SignupTemplate.sign!=''"><img src="{{currentStudentInfo.SignupTemplate.sign}}"
-            class="border-gray-400 border-solid max-h-16 w-auto h-auto">
+            class="w-auto h-auto border-gray-400 border-solid max-h-16">
         </div>
         <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadSign"
           *ngIf="currentStudentInfo.SignupTemplate.sign==''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
-            <span>选择要上传的签名(图片)</span>
+            <span>选择要上传的签名(图片,签名图片大小需小于100KB)</span>
           </button>
         </nz-upload>
         <nz-upload [nzLimit]='1' [nzMultiple]="true" [nzBeforeUpload]="beforeUploadSign"
           *ngIf="currentStudentInfo.SignupTemplate.sign!=''">
           <button nz-button>
             <i nz-icon nzType="upload"></i>
-            <span>修改签名(上传图片)</span>
+            <span>修改签名(上传图片,签名图片大小需小于100KB)</span>
           </button>
         </nz-upload>
       </nz-descriptions-item>
@@ -235,6 +262,8 @@
         <input nz-input [(ngModel)]="currentStudentInfo.SignupTemplate.date" />
       </nz-descriptions-item>
     </nz-descriptions>
+
+
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleCancelUpdateInfo()">取消</button>
@@ -254,8 +283,9 @@
         *ngIf="fileList.length !== 0" class="mt-4">
         {{ uploading ? '上传中' : '开始上传' }}
       </button>
-      <div class="text-red-600 pt-2">
-        申请人请按照上述顺序合并成一个PDF（不要制作封面，文件大小不超过10M），命名规则及邮件主题命名要求：报考专业名称+本科学校名称+姓名（示例：计算机科学与技术+中山大学+张三）</div>
+      <div class="pt-2 text-red-600">
+        申请人请上传两个PDF（不要制作封面，文件大小不超过10M），第一个为报考资料，命名规则为： 本科学校-考生姓名-报考资料。第二个为承诺书，命名规则为： 本科学校-考生姓名-承诺书
+        。例如（中山大学-张三-报考资料，中山大学-张三-承诺书）</div>
     </div>
     <h4 nz-typography class="mt-4">当前已上传材料文件</h4>
     <nz-table #currentRequestInTable [nzPageSize]="10" [nzData]='displayFileList!'>
@@ -271,7 +301,9 @@
           <td>{{ data.filename }} </td>
           <td>{{ formatDateTime(data.date) }}</td>
           <td>
-            <a nz-button nzType="link" (click)="downloadUpload(data)">预览(下载)此材料</a>
+            <a nz-button nzType="link" (click)="downloadUpload(data,0)">预览</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a nz-button nzType="link" (click)="downloadUpload(data,1)">下载</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除此材料吗?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="deleteUploadConfirm(data)" (nzOnCancel)="deleteUploadCancel()" nzOkText="确认删除"
@@ -290,8 +322,11 @@
 <nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleRandom" nzTitle="" (nzOnCancel)="handleOkRandom()"
   (nzOnOk)="handleOkRandom()" [nzOkLoading]="isOkLoadingRandom">
   <ng-container *nzModalContent>
-    你已成功确认参与面试,系统为你抽取的随机抽签号码为: {{currentStudentInfo.randomId}},此号码将作为你在分组内的面试顺序排序依据.
-
+    <div class="text-2xl">
+      你已成功确认参与面试,系统为你抽取的随机抽签号码为: {{currentStudentInfo.randomId}},此号码将作为你在分组内的面试顺序排序依据.
+      <br>
+      <span class="font-bold text-red-600">请下载考生诚信承诺书,并上传.</span>
+    </div>
   </ng-container>
   <div *nzModalFooter>
     <button nz-button nzType="default" (click)="handleOkRandom()">确认</button>

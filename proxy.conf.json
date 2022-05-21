@@ -1,6 +1,6 @@
 {
-  "/api/**": {
-    "target": "http://172.18.198.146:6008/",
+  "/fushi/api/**": {
+    "target": "http://172.18.198.146:80",
     "secure": false,
     "changeOrigin": true,
     "cookieDomainRewrite": "",
